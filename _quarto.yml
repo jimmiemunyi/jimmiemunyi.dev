@@ -21,6 +21,7 @@ website:
         href: https://twitter.com/jimmie_munyi
   opengraph: true
   twitter-card: true
+  reader-mode: true
 format:
   html:
     theme: 

@@ -1,0 +1,11 @@
+{
+  "hash": "99b0f0c70caebd84c51409acb46d418f",
+  "result": {
+    "markdown": "---\ntitle: Sign Language Inference\ndescription: 'Creating an app to run inference '\ndate: '2021-01-20'\nformart:\n  html:\n    code-fold: false\ncategories:\n  - technical\n  - project\n  - computer-vision\n---\n\n# Introduction\n\nAfter training our model in [Part A](/docs/posts/sign-language/sign-language-classification.html), we are now going to develop an application to run inference with for new data.\n\nI am going to be utilizing `opencv` to get live video from my webcam, then run our model against each frame in the video and get the prediction of what Sign Language Letter I am holding up.\n\nHere is an example of what the output will look like:\n\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/-nggi8EwfOA?start=1\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n\nThe whole code + training notebooks from Part A can be found in this [github repo](https://github.com/jimmiemunyi/Sign-Language-App).\n\n::: {.callout-note}\nThis tutorial assumes some basic understanding of the `cv2` library and general understanding of how to run inference using a model.\n:::\n\n",
+    "supporting": [
+      "sign-language-inference_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

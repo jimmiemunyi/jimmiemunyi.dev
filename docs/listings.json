@@ -2,12 +2,15 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/post-with-code/index.html",
-      "/posts/welcome/index.html"
+      "/posts/sign-language/sign-language-classification.html",
+      "/posts/pneumonia-classification/handling-imbalance-medical-datasets.html",
+      "/posts/state-of-art-models-with-transfer-learning/transfer-learning.html"
     ]
   },
   {
     "listing": "/projects.html",
-    "items": []
+    "items": [
+      "/projects/sign-language/2021-01-21-Sign-Language-Inference-with-WebCam.html"
+    ]
   }
 ]

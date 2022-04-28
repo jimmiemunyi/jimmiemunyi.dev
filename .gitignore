@@ -1,2 +1,5 @@
 
 /.quarto/
+.vscode
+.ipynb_checkpoints
+_notebooks
