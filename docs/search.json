@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "About Me",
     "section": "",
-    "text": "I am a Machine Learning Engineer who loves building projects that bring AI into the real world.\nI currently work in the AI team at Tambua Health.\nI also love contributing to Open Source Software.\nIn this blog, I write technical posts about interesting topics I encounter along the way, and also a personal blog posts about my thoughts.\nWelcome to my space."
+    "text": "I am a Machine Learning Engineer who loves building projects that bring AI into the real world.\nI currently work in the AI team at Tambua Health.\nI also love contributing to Open Source Software.\nIn this blog, I write technical posts about interesting topics I encounter along the way, and also personal blog posts about my thoughts.\nWelcome to my space."
   },
   {
     "objectID": "about.html#education",
@@ -25,14 +25,28 @@
     "href": "index.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "This is a post with executable code.\n\n\n\n\n\n\nApr 28, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis is the first post in a Quarto blog. Welcome!\n\n\n\n\n\n\nApr 25, 2022\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
+    "text": "This is a demo post to show how to imbed code.\n\n\n\n\n\n\nApr 29, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis is the first post in a Quarto blog. Welcome!\n\n\n\n\n\n\nApr 25, 2022\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
     "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "title": "Quarto Basics",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "For a demonstration of a line plot on a polar axis, see Figure 1."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#testing-the-table-of-contents",
+    "href": "posts/post-with-code/index.html#testing-the-table-of-contents",
+    "title": "Quarto Basics",
+    "section": "Testing the table of Contents",
+    "text": "Testing the table of Contents\nDummy Text\n\nInward heading"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#another-heading",
+    "href": "posts/post-with-code/index.html#another-heading",
+    "title": "Quarto Basics",
+    "section": "Another Heading",
+    "text": "Another Heading"
   },
   {
     "objectID": "posts/welcome/index.html",

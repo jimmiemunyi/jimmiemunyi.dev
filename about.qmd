@@ -22,7 +22,7 @@ I currently work in the AI team at [Tambua Health](https://www.tambuahealth.com/
 
 I also love contributing to Open Source Software. 
 
-In this blog, I write technical posts about interesting topics I encounter along the way, and also a personal blog posts about my thoughts.
+In this blog, I write technical posts about interesting topics I encounter along the way, and also personal blog posts about my thoughts.
 
 Welcome to my space.
 
