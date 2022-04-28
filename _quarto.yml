@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Jimmie Munyi"
+  navbar:
+    right:
+      - projects.qmd
+      - about.qmd
+      - icon: github
+        href: https://github.com/jimmiemunyi
+      - icon: twitter
+        href: https://twitter.com/jimmie_munyi
+  opengraph: true
+  twitter-card: true
+format:
+  html:
+    theme: 
+      light: litera
+      dark: darkly
+    css: styles.css
+
+
+
