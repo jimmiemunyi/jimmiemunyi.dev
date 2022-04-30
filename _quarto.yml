@@ -4,7 +4,7 @@ project:
 
 website:
   title: "Jimmie Munyi"
-  fav-icon: favivon.ico
+  fav-icon: favicon.png
   navbar:
     right:
       - projects.qmd
