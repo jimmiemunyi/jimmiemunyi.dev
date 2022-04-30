@@ -191,6 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#creating-the-dataloaders" id="toc-creating-the-dataloaders" class="nav-link" data-scroll-target="#creating-the-dataloaders">Creating the DataLoaders</a></li>
   <li><a href="#creating-the-model" id="toc-creating-the-model" class="nav-link" data-scroll-target="#creating-the-model">Creating the Model</a></li>
   <li><a href="#interpreting-the-embeddings" id="toc-interpreting-the-embeddings" class="nav-link" data-scroll-target="#interpreting-the-embeddings">Interpreting the Embeddings</a></li>
+  <li><a href="#generating-book-reviews" id="toc-generating-book-reviews" class="nav-link" data-scroll-target="#generating-book-reviews">Generating Book Reviews</a></li>
   <li><a href="#neural-network" id="toc-neural-network" class="nav-link" data-scroll-target="#neural-network">Neural Network</a></li>
   </ul></li>
   <li><a href="#use-full-dataset" id="toc-use-full-dataset" class="nav-link" data-scroll-target="#use-full-dataset">Use Full DataSet</a></li>
@@ -931,43 +932,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Luckily we have a method called <code>PCA</code> which stands for Principal Component Analysis that can be used to reduce the dimensions to something that can be plotted in a graph.</p>
 <p>Here is the outcome:</p>
 <div class="cell" data-outputid="6ef336d6-93d8-41f6-931d-d056aa62e11b" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  subplot_kw <span class="op">=</span> {<span class="st">'projection'</span>: <span class="st">'polar'</span>} </span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>g = ratings.groupby(‘original_title’)[‘rating’].count() top_books = g.sort_values(ascending=False).index.values[:10000] top_idxs = tensor([learn.dls.classes[‘original_title’].o2i[m] for m in top_books]) books_w = learn.model.i_weights.weight[top_idxs].cpu().detach() books_pca = books_w.pca(3) fac0,fac1,fac2 = books_pca.t() idxs = list(range(50)) X = fac0[idxs] Y = fac2[idxs] plt.figure(figsize=(12,12)) plt.scatter(X, Y) for i, x, y in zip(top_books[idxs], X, Y): plt.text(x,y,i, color=np.random.rand(3)*0.7, fontsize=11) plt.show()</p>
-<pre><code>
-::: {.cell-output .cell-output-display}
-![](similar-books_files/figure-html/cell-37-output-1.png){}
-:::
-:::
-
-
-As you can see, our model has learned for itself to seperate the books into different categories. If you look at the very top, we have the classic books, the likes of *To Kill A MockingBird* and *The Great Gatsby*. At the right side we have the likes of *The Da Vinci Code* and *Angels and Demons* which are more of Mystery Thriller Novels and are more of reality fiction novels. At the bottom we have *The Hobit* books which are more of fantasy novels and Mythology.
-
-What is magical is our model learned all of these on its own! We never explicitely told it what genres a particular book belongs to. We only fed it user ratings and it learned all about them itself.
-
-## Generating Book Reviews
-
-Now comes the interesting part. How to generate a book review for a user. It is actually a very simple concept. The intuition is two similar books should have a smaller distance between them (of the Embeddings) than two different books. So, we will require a reader to input the name of a book he or she enjoyed reading and we will generate a recommendation of books for them.
-
-Let us experiment with 'The Da Vinci Code' by Dan Brown and see the 5 most similar books to it using our model:
-
-::: {.cell outputId='e9a24ee4-7dcb-497d-8327-c63233f3f649' execution_count=37}
-``` {.python .cell-code}
-book_factors = learn.model.i_weights.weight
-idx = dls.classes['original_title'].o2i['The Da Vinci Code']
-distances = nn.CosineSimilarity(dim=1)(book_factors, book_factors[idx][None])
-idx = distances.argsort(descending=True)[1:6]
-[dls.classes['original_title'][i] for i in idx]</code></pre>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> ratings.groupby(<span class="st">'original_title'</span>)[<span class="st">'rating'</span>].count()</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>top_books <span class="op">=</span> g.sort_values(ascending<span class="op">=</span><span class="va">False</span>).index.values[:<span class="dv">10000</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>top_idxs <span class="op">=</span> tensor([learn.dls.classes[<span class="st">'original_title'</span>].o2i[m] <span class="cf">for</span> m <span class="kw">in</span> top_books])</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>books_w <span class="op">=</span> learn.model.i_weights.weight[top_idxs].cpu().detach()</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>books_pca <span class="op">=</span> books_w.pca(<span class="dv">3</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>fac0,fac1,fac2 <span class="op">=</span> books_pca.t()</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">50</span>))</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> fac0[idxs]</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> fac2[idxs]</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>plt.scatter(X, Y)</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, x, y <span class="kw">in</span> <span class="bu">zip</span>(top_books[idxs], X, Y):</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    plt.text(x,y,i, color<span class="op">=</span>np.random.rand(<span class="dv">3</span>)<span class="op">*</span><span class="fl">0.7</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="similar-books_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Representation of Books based on two strongest PCA components</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see, our model has learned for itself to seperate the books into different categories. If you look at the very top, we have the classic books, the likes of <em>To Kill A MockingBird</em> and <em>The Great Gatsby</em>. At the right side we have the likes of <em>The Da Vinci Code</em> and <em>Angels and Demons</em> which are more of Mystery Thriller Novels and are more of reality fiction novels. At the bottom we have <em>The Hobit</em> books which are more of fantasy novels and Mythology.</p>
+<p>What is magical is our model learned all of these on its own! We never explicitely told it what genres a particular book belongs to. We only fed it user ratings and it learned all about them itself.</p>
+</section>
+<section id="generating-book-reviews" class="level2">
+<h2 class="anchored" data-anchor-id="generating-book-reviews">Generating Book Reviews</h2>
+<p>Now comes the interesting part. How to generate a book review for a user. It is actually a very simple concept. The intuition is two similar books should have a smaller distance between them (of the Embeddings) than two different books. So, we will require a reader to input the name of a book he or she enjoyed reading and we will generate a recommendation of books for them.</p>
+<p>Let us experiment with ‘The Da Vinci Code’ by Dan Brown and see the 5 most similar books to it using our model:</p>
+<div class="cell" data-outputid="e9a24ee4-7dcb-497d-8327-c63233f3f649" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>book_factors <span class="op">=</span> learn.model.i_weights.weight</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> dls.classes[<span class="st">'original_title'</span>].o2i[<span class="st">'The Da Vinci Code'</span>]</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>distances <span class="op">=</span> nn.CosineSimilarity(dim<span class="op">=</span><span class="dv">1</span>)(book_factors, book_factors[idx][<span class="va">None</span>])</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> distances.argsort(descending<span class="op">=</span><span class="va">True</span>)[<span class="dv">1</span>:<span class="dv">6</span>]</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>['The Sweet Far Thing',
  'Angels &amp; Demons ',
