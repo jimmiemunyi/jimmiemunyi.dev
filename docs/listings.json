@@ -2,10 +2,13 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/resnet-paper/resnet-implementation.html",
+      "/posts/learning-from-sound/respiratory-sounds.html",
       "/posts/book-recommendation/similar-books.html",
       "/posts/sign-language/sign-language-classification.html",
       "/posts/pneumonia-classification/handling-imbalance-medical-datasets.html",
-      "/posts/state-of-art-models-with-transfer-learning/transfer-learning.html"
+      "/posts/transfer-learning-intermediate/making-transfer-learning-work.html",
+      "/posts/transfer-learning-beginner/transfer-learning.html"
     ]
   },
   {
