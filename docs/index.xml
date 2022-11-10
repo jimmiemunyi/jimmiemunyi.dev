@@ -5340,6 +5340,332 @@ Accuracy: 0.82</code></pre>
   <media:content url="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" medium="image" type="image/svg+xml"/>
 </item>
 <item>
+  <title>sign language inference</title>
+  <link>https://jimmiemunyi.dev/posts/sign-language/sign-language-inference.html</link>
+  <description><![CDATA[ 
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>After training our model in <a href="../../docs/posts/sign-language/sign-language-classification.html">Part A</a>, we are now going to develop an application to run inference with for new data.</p>
+<p>I am going to be utilizing <code>opencv</code> to get live video from my webcam, then run our model against each frame in the video and get the prediction of what Sign Language Letter I am holding up.</p>
+<p>Here is an example of what the output will look like:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/-nggi8EwfOA" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>The whole code + training notebooks from Part A can be found in this <a href="https://github.com/jimmiemunyi/Sign-Language-App">github repo</a>.</p>
+<p>This tutorial assumes some basic understanding of the <code>cv2</code> library and general understanding of how to run inference using a model.</p>
+</section>
+<section id="the-full-code" class="level1">
+<h1>The Full Code</h1>
+<p>Here is the full code of making the App if you just want the code.</p>
+<p>I will explain each part of the code and what was my thinking behind it in the next section.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;">from</span> collections <span class="im" style="color: #00769E;">import</span> deque, Counter</span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="im" style="color: #00769E;">import</span> cv2</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;">from</span> fastai.vision.<span class="bu" style="color: null;">all</span> <span class="im" style="color: #00769E;">import</span> <span class="op" style="color: #5E5E5E;">*</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="bu" style="color: null;">print</span>(<span class="st" style="color: #20794D;">'Loading our Inference model...'</span>)</span>
+<span id="cb1-7"><span class="co" style="color: #5E5E5E;"># load our inference model</span></span>
+<span id="cb1-8">inf_model <span class="op" style="color: #5E5E5E;">=</span> load_learner(<span class="st" style="color: #20794D;">'model/sign_language.pkl'</span>)</span>
+<span id="cb1-9"><span class="bu" style="color: null;">print</span>(<span class="st" style="color: #20794D;">'Model Loaded'</span>)</span>
+<span id="cb1-10"></span>
+<span id="cb1-11"></span>
+<span id="cb1-12"><span class="co" style="color: #5E5E5E;"># define a deque to get rolling average of predictions</span></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;"># I go with the last 10 predictions</span></span>
+<span id="cb1-14">rolling_predictions <span class="op" style="color: #5E5E5E;">=</span> deque([], maxlen<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">10</span>)</span>
+<span id="cb1-15"></span>
+<span id="cb1-16"><span class="co" style="color: #5E5E5E;"># get the most common item in the deque</span></span>
+<span id="cb1-17"><span class="kw" style="color: #003B4F;">def</span> most_common(D):</span>
+<span id="cb1-18">    data <span class="op" style="color: #5E5E5E;">=</span> Counter(D)</span>
+<span id="cb1-19">    <span class="cf" style="color: #003B4F;">return</span> data.most_common(<span class="dv" style="color: #AD0000;">1</span>)[<span class="dv" style="color: #AD0000;">0</span>][<span class="dv" style="color: #AD0000;">0</span>]</span>
+<span id="cb1-20"></span>
+<span id="cb1-21"></span>
+<span id="cb1-22"><span class="kw" style="color: #003B4F;">def</span> hand_area(img):</span>
+<span id="cb1-23">    <span class="co" style="color: #5E5E5E;"># specify where hand should go</span></span>
+<span id="cb1-24">    hand <span class="op" style="color: #5E5E5E;">=</span> img[<span class="dv" style="color: #AD0000;">50</span>:<span class="dv" style="color: #AD0000;">324</span>, <span class="dv" style="color: #AD0000;">50</span>:<span class="dv" style="color: #AD0000;">324</span>]</span>
+<span id="cb1-25">    <span class="co" style="color: #5E5E5E;"># the images in the model were trainind on 200x200 pixels</span></span>
+<span id="cb1-26">    hand <span class="op" style="color: #5E5E5E;">=</span> cv2.resize(hand, (<span class="dv" style="color: #AD0000;">200</span>,<span class="dv" style="color: #AD0000;">200</span>))</span>
+<span id="cb1-27">    <span class="cf" style="color: #003B4F;">return</span> hand</span>
+<span id="cb1-28"></span>
+<span id="cb1-29"><span class="co" style="color: #5E5E5E;"># capture video on the webcam</span></span>
+<span id="cb1-30">cap <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoCapture(<span class="dv" style="color: #AD0000;">0</span>)</span>
+<span id="cb1-31"></span>
+<span id="cb1-32"></span>
+<span id="cb1-33"><span class="co" style="color: #5E5E5E;"># get the dimensions on the frame</span></span>
+<span id="cb1-34">frame_width <span class="op" style="color: #5E5E5E;">=</span> <span class="bu" style="color: null;">int</span>(cap.get(<span class="dv" style="color: #AD0000;">3</span>))</span>
+<span id="cb1-35">frame_height <span class="op" style="color: #5E5E5E;">=</span> <span class="bu" style="color: null;">int</span>(cap.get(<span class="dv" style="color: #AD0000;">4</span>))</span>
+<span id="cb1-36"></span>
+<span id="cb1-37"><span class="co" style="color: #5E5E5E;"># define codec and create our VideoWriter to save the video</span></span>
+<span id="cb1-38">fourcc <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoWriter_fourcc(<span class="op" style="color: #5E5E5E;">*</span><span class="st" style="color: #20794D;">'mp4v'</span>)</span>
+<span id="cb1-39">out <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoWriter(<span class="st" style="color: #20794D;">'output/sign-language.mp4'</span>, fourcc, <span class="dv" style="color: #AD0000;">12</span>, (frame_width, frame_height))</span>
+<span id="cb1-40"></span>
+<span id="cb1-41"></span>
+<span id="cb1-42"><span class="co" style="color: #5E5E5E;"># read video</span></span>
+<span id="cb1-43"><span class="cf" style="color: #003B4F;">while</span> <span class="va" style="color: #111111;">True</span>:</span>
+<span id="cb1-44">    <span class="co" style="color: #5E5E5E;"># capture each frame of the video</span></span>
+<span id="cb1-45">    ret, frame <span class="op" style="color: #5E5E5E;">=</span> cap.read()</span>
+<span id="cb1-46"></span>
+<span id="cb1-47">    <span class="co" style="color: #5E5E5E;"># flip frame to feel more 'natural' to webcam</span></span>
+<span id="cb1-48">    frame <span class="op" style="color: #5E5E5E;">=</span> cv2.flip(frame, flipCode <span class="op" style="color: #5E5E5E;">=</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb1-49"></span>
+<span id="cb1-50">    <span class="co" style="color: #5E5E5E;"># draw a blue rectangle where to place hand</span></span>
+<span id="cb1-51">    cv2.rectangle(frame, (<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">50</span>), (<span class="dv" style="color: #AD0000;">324</span>, <span class="dv" style="color: #AD0000;">324</span>), (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb1-52"></span>
+<span id="cb1-53">    <span class="co" style="color: #5E5E5E;"># get the image</span></span>
+<span id="cb1-54">    inference_image <span class="op" style="color: #5E5E5E;">=</span> hand_area(frame)</span>
+<span id="cb1-55"></span>
+<span id="cb1-56">    <span class="co" style="color: #5E5E5E;"># get the current prediction on the hand</span></span>
+<span id="cb1-57">    pred <span class="op" style="color: #5E5E5E;">=</span> inf_model.predict(inference_image)</span>
+<span id="cb1-58">    <span class="co" style="color: #5E5E5E;"># append the current prediction to our rolling predictions</span></span>
+<span id="cb1-59">    rolling_predictions.append(pred[<span class="dv" style="color: #AD0000;">0</span>])</span>
+<span id="cb1-60"></span>
+<span id="cb1-61">    <span class="co" style="color: #5E5E5E;"># our prediction is going to be the most common letter</span></span>
+<span id="cb1-62">    <span class="co" style="color: #5E5E5E;"># in our rolling predictions</span></span>
+<span id="cb1-63">    prediction_output <span class="op" style="color: #5E5E5E;">=</span> <span class="ss" style="color: #20794D;">f'The predicted letter is </span><span class="sc" style="color: #5E5E5E;">{</span>most_common(rolling_predictions)<span class="sc" style="color: #5E5E5E;">}</span><span class="ss" style="color: #20794D;">'</span></span>
+<span id="cb1-64"></span>
+<span id="cb1-65">    <span class="co" style="color: #5E5E5E;"># show predicted text</span></span>
+<span id="cb1-66">    cv2.putText(frame, prediction_output, (<span class="dv" style="color: #AD0000;">10</span>, <span class="dv" style="color: #AD0000;">350</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="fl" style="color: #AD0000;">0.9</span>, (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb1-67">    <span class="co" style="color: #5E5E5E;"># show the frame</span></span>
+<span id="cb1-68">    cv2.imshow(<span class="st" style="color: #20794D;">'frame'</span>, frame)</span>
+<span id="cb1-69">    <span class="co" style="color: #5E5E5E;"># save the frames to out file</span></span>
+<span id="cb1-70">    out.write(frame)</span>
+<span id="cb1-71"></span>
+<span id="cb1-72"></span>
+<span id="cb1-73">    <span class="co" style="color: #5E5E5E;"># press `q` to exit</span></span>
+<span id="cb1-74">    <span class="cf" style="color: #003B4F;">if</span> cv2.waitKey(<span class="dv" style="color: #AD0000;">1</span>) <span class="op" style="color: #5E5E5E;">&amp;</span> <span class="bn" style="color: #AD0000;">0xFF</span> <span class="op" style="color: #5E5E5E;">==</span> <span class="bu" style="color: null;">ord</span>(<span class="st" style="color: #20794D;">'q'</span>):</span>
+<span id="cb1-75">        <span class="cf" style="color: #003B4F;">break</span></span>
+<span id="cb1-76"></span>
+<span id="cb1-77"><span class="co" style="color: #5E5E5E;"># release VideoCapture()</span></span>
+<span id="cb1-78">cap.release()</span>
+<span id="cb1-79"><span class="co" style="color: #5E5E5E;"># release out file</span></span>
+<span id="cb1-80">out.release()</span>
+<span id="cb1-81"><span class="co" style="color: #5E5E5E;"># close all frames and video windows</span></span>
+<span id="cb1-82">cv2.destroyAllWindows()</span></code></pre></div>
+</div>
+</section>
+<section id="explaining-the-code" class="level1">
+<h1>Explaining the Code</h1>
+<section id="imports" class="level2">
+<h2 class="anchored" data-anchor-id="imports">Imports</h2>
+<p>Install <a href="https://github.com/fastai/fastai">fastai</a> and <a href="https://pypi.org/project/opencv-python/">opencv-python</a>.</p>
+<p>Next, this are the packages I utilize for this App. <code>fastai</code> is going to be used to run Inference with, <code>cv2</code> is going to handle all the WebCam functionality and we are going to utilize <code>deque</code> and <code>Counter</code> from collections to apply a nifty trick I am going to show you.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;">from</span> collections <span class="im" style="color: #00769E;">import</span> deque, Counter</span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="im" style="color: #00769E;">import</span> cv2</span>
+<span id="cb2-4"><span class="im" style="color: #00769E;">from</span> fastai.vision.<span class="bu" style="color: null;">all</span> <span class="im" style="color: #00769E;">import</span> <span class="op" style="color: #5E5E5E;">*</span></span></code></pre></div>
+</div>
+</section>
+<section id="loading-our-inference-model" class="level2">
+<h2 class="anchored" data-anchor-id="loading-our-inference-model">Loading our Inference Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="bu" style="color: null;">print</span>(<span class="st" style="color: #20794D;">'Loading our Inference model...'</span>)</span>
+<span id="cb3-2"><span class="co" style="color: #5E5E5E;"># load our inference model</span></span>
+<span id="cb3-3">inf_model <span class="op" style="color: #5E5E5E;">=</span> load_learner(<span class="st" style="color: #20794D;">'model/sign_language.pkl'</span>)</span>
+<span id="cb3-4"><span class="bu" style="color: null;">print</span>(<span class="st" style="color: #20794D;">'Model Loaded'</span>)</span></code></pre></div>
+</div>
+<p>The next part of our code loads the model we pickled in Part A and prints some useful information.</p>
+</section>
+<section id="rolling-average-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="rolling-average-predictions">Rolling Average Predictions</h2>
+<p>When I first made the App, I noticed one problem when using it. A slight movement of my hand was changing the predictions. This is known as <code>flickering</code>. The video below shows how flickering affects our App:</p>
+<p>{{&lt; video https://youtu.be/aPAG39MjN68&gt;}}</p>
+<p>The Video you saw in the beginning shows how ‘stable’ our model is after using rolling predictions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="co" style="color: #5E5E5E;"># define a deque to get rolling average of predictions</span></span>
+<span id="cb4-2"><span class="co" style="color: #5E5E5E;"># I go with the last 10 predictions</span></span>
+<span id="cb4-3">rolling_predictions <span class="op" style="color: #5E5E5E;">=</span> deque([], maxlen<span class="op" style="color: #5E5E5E;">=</span><span class="dv" style="color: #AD0000;">10</span>)</span>
+<span id="cb4-4"></span>
+<span id="cb4-5"><span class="co" style="color: #5E5E5E;"># get the most common item in the deque</span></span>
+<span id="cb4-6"><span class="kw" style="color: #003B4F;">def</span> most_common(D):</span>
+<span id="cb4-7">    data <span class="op" style="color: #5E5E5E;">=</span> Counter(D)</span>
+<span id="cb4-8">    <span class="cf" style="color: #003B4F;">return</span> data.most_common(<span class="dv" style="color: #AD0000;">1</span>)[<span class="dv" style="color: #AD0000;">0</span>][<span class="dv" style="color: #AD0000;">0</span>]</span></code></pre></div>
+</div>
+<p>To solve this, a utilized the deque from Collections. I used 10 as the maxlength of the deque since I wanted the App, when running inference, to output the most common prediction out of the last 10 predictions. This makes it more stable than when we are using only the current one.</p>
+<p>The function <code>most_common</code> will return the most common item in our deque.</p>
+</section>
+<section id="hand-area" class="level2">
+<h2 class="anchored" data-anchor-id="hand-area">Hand Area</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="kw" style="color: #003B4F;">def</span> hand_area(img):</span>
+<span id="cb5-2">    <span class="co" style="color: #5E5E5E;"># specify where hand should go</span></span>
+<span id="cb5-3">    hand <span class="op" style="color: #5E5E5E;">=</span> img[<span class="dv" style="color: #AD0000;">50</span>:<span class="dv" style="color: #AD0000;">324</span>, <span class="dv" style="color: #AD0000;">50</span>:<span class="dv" style="color: #AD0000;">324</span>]</span>
+<span id="cb5-4">    <span class="co" style="color: #5E5E5E;"># the images in the model were trainind on 200x200 pixels</span></span>
+<span id="cb5-5">    hand <span class="op" style="color: #5E5E5E;">=</span> cv2.resize(hand, (<span class="dv" style="color: #AD0000;">200</span>,<span class="dv" style="color: #AD0000;">200</span>))</span>
+<span id="cb5-6">    <span class="cf" style="color: #003B4F;">return</span> hand</span></code></pre></div>
+</div>
+<p>Next, we define a function that tells our model which part of the video to run inference on. We do not want to run inference on the whole video which will include our face! We will eventually draw a blue rectangle in this area so that you’ll know where to place your hand.</p>
+</section>
+<section id="capture-video-on-the-webcam-and-define-our-writer" class="level2">
+<h2 class="anchored" data-anchor-id="capture-video-on-the-webcam-and-define-our-writer">Capture Video on the WebCam and Define Our Writer</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="co" style="color: #5E5E5E;"># capture video on the webcam</span></span>
+<span id="cb6-2">cap <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoCapture(<span class="dv" style="color: #AD0000;">0</span>)</span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;"># get the dimensions on the frame</span></span>
+<span id="cb6-5">frame_width <span class="op" style="color: #5E5E5E;">=</span> <span class="bu" style="color: null;">int</span>(cap.get(<span class="dv" style="color: #AD0000;">3</span>))</span>
+<span id="cb6-6">frame_height <span class="op" style="color: #5E5E5E;">=</span> <span class="bu" style="color: null;">int</span>(cap.get(<span class="dv" style="color: #AD0000;">4</span>))</span>
+<span id="cb6-7"></span>
+<span id="cb6-8"><span class="co" style="color: #5E5E5E;"># define codec and create our VideoWriter to save the video</span></span>
+<span id="cb6-9">fourcc <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoWriter_fourcc(<span class="op" style="color: #5E5E5E;">*</span><span class="st" style="color: #20794D;">'mp4v'</span>)</span>
+<span id="cb6-10">out <span class="op" style="color: #5E5E5E;">=</span> cv2.VideoWriter(<span class="st" style="color: #20794D;">'sign-language.mp4'</span>, fourcc, <span class="dv" style="color: #AD0000;">12</span>, (frame_width, frame_height))</span></code></pre></div>
+</div>
+<p>Here, we define a <code>VideoCapture</code> that will record our video. The parameter 0 means capture on the first WebCam it finds. If you have multiple WebCams, this is the parameter you want to play around with until you find the correct one.</p>
+<p>Next, we get the dimensions of the frame being recorded by the VideoCapture. We are going to use this dimensions when writing (outputting) the recorded video</p>
+<p>Finally, we create a <code>VideoWriter</code> that we are going to use to output the video and write it to our Hard Disk. To do that, opencv requires us to define a codec to use, and so we create a <code>VideoWriter_fourcc</code> exactly for that purpose and we use ‘mp4v’ with it.</p>
+<p>In our writer, we first pass the name we want for the output file, here I use ‘sign-language.mp4’ which will be written in the current directory. You can change this location if you wish to. Next we pass in the codec. After that you pass in your fps (frame rate per second). I found that 12 worked best with my configuration but you probably want to play around with that until you get the best one for you. Finally, we pass in the frame sizes, which we had gotten earlier.</p>
+</section>
+<section id="the-main-video-loop" class="level2">
+<h2 class="anchored" data-anchor-id="the-main-video-loop">The Main Video Loop</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="co" style="color: #5E5E5E;"># read video</span></span>
+<span id="cb7-2"><span class="cf" style="color: #003B4F;">while</span> <span class="va" style="color: #111111;">True</span>:</span>
+<span id="cb7-3">    <span class="co" style="color: #5E5E5E;"># capture each frame of the video</span></span>
+<span id="cb7-4">    ret, frame <span class="op" style="color: #5E5E5E;">=</span> cap.read()</span>
+<span id="cb7-5"></span>
+<span id="cb7-6">    <span class="co" style="color: #5E5E5E;"># flip frame to feel more 'natural' to webcam</span></span>
+<span id="cb7-7">    frame <span class="op" style="color: #5E5E5E;">=</span> cv2.flip(frame, flipCode <span class="op" style="color: #5E5E5E;">=</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb7-8"></span>
+<span id="cb7-9">    <span class="co" style="color: #5E5E5E;"># draw a blue rectangle where to place hand</span></span>
+<span id="cb7-10">    cv2.rectangle(frame, (<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">50</span>), (<span class="dv" style="color: #AD0000;">324</span>, <span class="dv" style="color: #AD0000;">324</span>), (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb7-11"></span>
+<span id="cb7-12">    <span class="co" style="color: #5E5E5E;"># get the image</span></span>
+<span id="cb7-13">    inference_image <span class="op" style="color: #5E5E5E;">=</span> hand_area(frame)</span>
+<span id="cb7-14"></span>
+<span id="cb7-15">    <span class="co" style="color: #5E5E5E;"># get the current prediction on the hand</span></span>
+<span id="cb7-16">    pred <span class="op" style="color: #5E5E5E;">=</span> inf_model.predict(inference_image)</span>
+<span id="cb7-17">    <span class="co" style="color: #5E5E5E;"># append the current prediction to our rolling predictions</span></span>
+<span id="cb7-18">    rolling_predictions.append(pred[<span class="dv" style="color: #AD0000;">0</span>])</span>
+<span id="cb7-19"></span>
+<span id="cb7-20">    <span class="co" style="color: #5E5E5E;"># our prediction is going to be the most common letter</span></span>
+<span id="cb7-21">    <span class="co" style="color: #5E5E5E;"># in our rolling predictions</span></span>
+<span id="cb7-22">    prediction_output <span class="op" style="color: #5E5E5E;">=</span> <span class="ss" style="color: #20794D;">f'The predicted letter is </span><span class="sc" style="color: #5E5E5E;">{</span>most_common(rolling_predictions)<span class="sc" style="color: #5E5E5E;">}</span><span class="ss" style="color: #20794D;">'</span></span>
+<span id="cb7-23"></span>
+<span id="cb7-24">    <span class="co" style="color: #5E5E5E;"># show predicted text</span></span>
+<span id="cb7-25">    cv2.putText(frame, prediction_output, (<span class="dv" style="color: #AD0000;">10</span>, <span class="dv" style="color: #AD0000;">350</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="fl" style="color: #AD0000;">0.9</span>, (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb7-26">    <span class="co" style="color: #5E5E5E;"># show the frame</span></span>
+<span id="cb7-27">    cv2.imshow(<span class="st" style="color: #20794D;">'frame'</span>, frame)</span>
+<span id="cb7-28">    <span class="co" style="color: #5E5E5E;"># save the frames to out file</span></span>
+<span id="cb7-29">    out.write(frame)</span>
+<span id="cb7-30"></span>
+<span id="cb7-31"></span>
+<span id="cb7-32">    <span class="co" style="color: #5E5E5E;"># press `q` to exit</span></span>
+<span id="cb7-33">    <span class="cf" style="color: #003B4F;">if</span> cv2.waitKey(<span class="dv" style="color: #AD0000;">1</span>) <span class="op" style="color: #5E5E5E;">&amp;</span> <span class="bn" style="color: #AD0000;">0xFF</span> <span class="op" style="color: #5E5E5E;">==</span> <span class="bu" style="color: null;">ord</span>(<span class="st" style="color: #20794D;">'q'</span>):</span>
+<span id="cb7-34">        <span class="cf" style="color: #003B4F;">break</span></span></code></pre></div>
+</div>
+<p>This is a long piece of code so lets break it down bit by bit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;"># read video</span></span>
+<span id="cb8-2"><span class="cf" style="color: #003B4F;">while</span> <span class="va" style="color: #111111;">True</span>:</span>
+<span id="cb8-3">    <span class="co" style="color: #5E5E5E;"># capture each frame of the video</span></span>
+<span id="cb8-4">    _ , frame <span class="op" style="color: #5E5E5E;">=</span> cap.read()</span>
+<span id="cb8-5"></span>
+<span id="cb8-6">    <span class="co" style="color: #5E5E5E;"># flip frame to feel more 'natural' to webcam</span></span>
+<span id="cb8-7">    frame <span class="op" style="color: #5E5E5E;">=</span> cv2.flip(frame, flipCode <span class="op" style="color: #5E5E5E;">=</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb8-8">    </span>
+<span id="cb8-9"></span>
+<span id="cb8-10"></span>
+<span id="cb8-11">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb8-12">    <span class="co" style="color: #5E5E5E;"># truncated code here</span></span>
+<span id="cb8-13">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb8-14"></span>
+<span id="cb8-15"></span>
+<span id="cb8-16"></span>
+<span id="cb8-17">    </span>
+<span id="cb8-18">    <span class="co" style="color: #5E5E5E;"># show the frame</span></span>
+<span id="cb8-19">    cv2.imshow(<span class="st" style="color: #20794D;">'frame'</span>, frame)</span>
+<span id="cb8-20">    <span class="co" style="color: #5E5E5E;"># save the frames to out file</span></span>
+<span id="cb8-21">    out.write(frame)</span>
+<span id="cb8-22"></span>
+<span id="cb8-23"></span>
+<span id="cb8-24">    <span class="co" style="color: #5E5E5E;"># press `q` to exit</span></span>
+<span id="cb8-25">    <span class="cf" style="color: #003B4F;">if</span> cv2.waitKey(<span class="dv" style="color: #AD0000;">1</span>) <span class="op" style="color: #5E5E5E;">&amp;</span> <span class="bn" style="color: #AD0000;">0xFF</span> <span class="op" style="color: #5E5E5E;">==</span> <span class="bu" style="color: null;">ord</span>(<span class="st" style="color: #20794D;">'q'</span>):</span>
+<span id="cb8-26">        <span class="cf" style="color: #003B4F;">break</span></span></code></pre></div>
+</div>
+<p>We create a infinite While loop that will always be running, until the user presses the ‘q’ letter on the keyboard, as defined by our last if statement at the very bottom of the loop.</p>
+<p>After that, we use the reader we created earlier and call <code>cap.read()</code> on it which returns the current frame of the video, and another variable that we are not going to use.</p>
+<p>A little intuition how videos works. A frame is somewhat equivalent to just one static image. Think of it as that. So for a video what usually happens it these single frames are played one after the other quickly, like 30-60 times faster hence creating the illusion of a continious video.</p>
+<p>So for our App, we are going to get each frame, and run it through our model (which expects the input to be an image, so this will work) and return the current prediction. This is also why we decided to use rolling average predictions and not the just the current prediction. To reduce the flickering that may occur by passing a different frame each second.</p>
+<p>Next:</p>
+<pre><code>    frame = cv2.flip(frame, flipCode = 1)</code></pre>
+<p>This flips our frame to make it feel more natural. What I mean is, without flipping, the output image felt reversed, where if I raised my left arm it seemed like I was raising my right. Try running the App with this part commented out and you’ll get what I mean.</p>
+<p>This shows the frames one after the other and the out writes it to disk</p>
+<pre><code>    cv2.imshow('frame', frame)
+    # save the frames to out file
+    out.write(frame)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"></span>
+<span id="cb11-2"><span class="co" style="color: #5E5E5E;"># read video</span></span>
+<span id="cb11-3"><span class="cf" style="color: #003B4F;">while</span> <span class="va" style="color: #111111;">True</span>:</span>
+<span id="cb11-4">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb11-5">    <span class="co" style="color: #5E5E5E;"># truncated code here</span></span>
+<span id="cb11-6">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb11-7"></span>
+<span id="cb11-8">    <span class="co" style="color: #5E5E5E;"># draw a blue rectangle where to place hand</span></span>
+<span id="cb11-9">    cv2.rectangle(frame, (<span class="dv" style="color: #AD0000;">50</span>, <span class="dv" style="color: #AD0000;">50</span>), (<span class="dv" style="color: #AD0000;">324</span>, <span class="dv" style="color: #AD0000;">324</span>), (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb11-10"></span>
+<span id="cb11-11">    <span class="co" style="color: #5E5E5E;"># get the image</span></span>
+<span id="cb11-12">    inference_image <span class="op" style="color: #5E5E5E;">=</span> hand_area(frame)</span>
+<span id="cb11-13"></span>
+<span id="cb11-14">    <span class="co" style="color: #5E5E5E;"># get the current prediction on the hand</span></span>
+<span id="cb11-15">    pred <span class="op" style="color: #5E5E5E;">=</span> inf_model.predict(inference_image)</span>
+<span id="cb11-16">    <span class="co" style="color: #5E5E5E;"># append the current prediction to our rolling predictions</span></span>
+<span id="cb11-17">    rolling_predictions.append(pred[<span class="dv" style="color: #AD0000;">0</span>])</span>
+<span id="cb11-18"></span>
+<span id="cb11-19">    <span class="co" style="color: #5E5E5E;"># our prediction is going to be the most common letter</span></span>
+<span id="cb11-20">    <span class="co" style="color: #5E5E5E;"># in our rolling predictions</span></span>
+<span id="cb11-21">    prediction_output <span class="op" style="color: #5E5E5E;">=</span> <span class="ss" style="color: #20794D;">f'The predicted letter is </span><span class="sc" style="color: #5E5E5E;">{</span>most_common(rolling_predictions)<span class="sc" style="color: #5E5E5E;">}</span><span class="ss" style="color: #20794D;">'</span></span>
+<span id="cb11-22"></span>
+<span id="cb11-23">    <span class="co" style="color: #5E5E5E;"># show predicted text</span></span>
+<span id="cb11-24">    cv2.putText(frame, prediction_output, (<span class="dv" style="color: #AD0000;">10</span>, <span class="dv" style="color: #AD0000;">350</span>), cv2.FONT_HERSHEY_SIMPLEX, <span class="fl" style="color: #AD0000;">0.9</span>, (<span class="dv" style="color: #AD0000;">255</span>, <span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">0</span>), <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb11-25"></span>
+<span id="cb11-26"></span>
+<span id="cb11-27">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb11-28">    <span class="co" style="color: #5E5E5E;"># truncated code here</span></span>
+<span id="cb11-29">    <span class="co" style="color: #5E5E5E;"># ......</span></span>
+<span id="cb11-30"></span>
+<span id="cb11-31"></span>
+<span id="cb11-32">    <span class="co" style="color: #5E5E5E;"># press `q` to exit</span></span>
+<span id="cb11-33">    <span class="cf" style="color: #003B4F;">if</span> cv2.waitKey(<span class="dv" style="color: #AD0000;">1</span>) <span class="op" style="color: #5E5E5E;">&amp;</span> <span class="bn" style="color: #AD0000;">0xFF</span> <span class="op" style="color: #5E5E5E;">==</span> <span class="bu" style="color: null;">ord</span>(<span class="st" style="color: #20794D;">'q'</span>):</span>
+<span id="cb11-34">        <span class="cf" style="color: #003B4F;">break</span></span></code></pre></div>
+</div>
+<p>Next, we draw a blue rectangle where the user should place the hand. The first parameter is where we want to draw the rectangle and we tell opencv to draw it on our current frame. The next two parameter describe the area where we want our rectangle to be. Note that this dimensions are exactly the same as those in the <code>hand_area</code> function we created earlier. This is to make sure we are running inference on the correct area. Lastly we pass in the color of the rectangle (in BGR formart) and the thickness of the line (2).</p>
+<pre><code>cv2.rectangle(frame, (50, 50), (324, 324), (255, 0, 0), 2)</code></pre>
+<p>Next, from our whole frame, we just extract the hand area and store it. This is the image we are going to pass to our model</p>
+<pre><code>inference_image = hand_area(frame)</code></pre>
+<p>Next, we pass our extracted image to our inference model and get the predictions and append that prediction to our rolling predictions deque. Remember that this deque will only hold the most recent 10 predictions and discard everything else</p>
+<pre><code>pred = inf_model.predict(inference_image)
+
+rolling_predictions.append(pred[0])</code></pre>
+<p>We get the most common Letter predicted in our Deque and use opencv to write that letter to the video. The parameters are almost similar to the rectangle code, with a slight variation since here we have to pass in the font(hershey simplex) and font size (0.9)</p>
+<pre><code>prediction_output = f'The predicted letter is {most_common(rolling_predictions)}'
+
+cv2.putText(frame, prediction_output, (10, 350), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)</code></pre>
+<p>The final part of the code just releases the resources we had acquired initially: the Video reader, the Video Writer and then destroys all windows created.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="co" style="color: #5E5E5E;"># release VideoCapture()</span></span>
+<span id="cb16-2">cap.release()</span>
+<span id="cb16-3"><span class="co" style="color: #5E5E5E;"># release out file</span></span>
+<span id="cb16-4">out.release()</span>
+<span id="cb16-5"><span class="co" style="color: #5E5E5E;"># close all frames and video windows</span></span>
+<span id="cb16-6">cv2.destroyAllWindows()</span></code></pre></div>
+</div>
+<p>And that’s all in this project. Hope you enjoyed it.</p>
+<p>In future, I am going to look for ways to improve this system and how to actually make it useful.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>technical</category>
+  <category>project</category>
+  <category>computer-vision</category>
+  <guid>https://jimmiemunyi.dev/posts/sign-language/sign-language-inference.html</guid>
+  <pubDate>Wed, 20 Jan 2021 21:00:00 GMT</pubDate>
+</item>
+<item>
   <title>sign language classification</title>
   <link>https://jimmiemunyi.dev/posts/sign-language/sign-language-classification.html</link>
   <description><![CDATA[ 
