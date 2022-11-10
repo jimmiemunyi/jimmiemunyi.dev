@@ -1,0 +1,20 @@
+[
+  {
+    "listing": "/podcast-notes.html",
+    "items": []
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/thoughts/not-into-computers.html",
+      "/posts/transfer-learning-intermediate/making-transfer-learning-work.html",
+      "/posts/resnet-paper/resnet-implementation.html",
+      "/posts/learning-from-sound/respiratory-sounds.html",
+      "/posts/book-recommendation/similar-books.html",
+      "/posts/sign-language/sign-language-inference.html",
+      "/posts/sign-language/sign-language-classification.html",
+      "/posts/pneumonia-classification/handling-imbalance-medical-datasets.html",
+      "/posts/transfer-learning-beginner/transfer-learning.html"
+    ]
+  }
+]

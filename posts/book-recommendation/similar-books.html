@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2021-02-15">
+<meta name="description" content="Using Collaborative Filtering to recommend books.">
+
+<title>jimmie munyi - making a book recommendation system</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-0HHNW4RVEE"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="jimmie munyi - making a book recommendation system">
+<meta property="og:description" content="Using Collaborative Filtering to recommend books.">
+<meta property="og:site-name" content="jimmie munyi">
+<meta name="twitter:title" content="jimmie munyi - making a book recommendation system">
+<meta name="twitter:description" content="Using Collaborative Filtering to recommend books.">
+<meta name="twitter:image" content="https://jimmiemunyi.dev/jimmie-new.jpg">
+<meta name="twitter:creator" content="@jimmie_munyi">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">jimmie munyi</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">about</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../podcast-notes.html">
+ <span class="menu-text">podcast notes</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jimmiemunyi"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/jimmie_munyi"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"><i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-reader-toggle nav-link" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#imports" id="toc-imports" class="nav-link active" data-scroll-target="#imports">Imports</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset">The DataSet</a></li>
+  <li><a href="#subset-of-the-dataset" id="toc-subset-of-the-dataset" class="nav-link" data-scroll-target="#subset-of-the-dataset">Subset of the Dataset</a>
+  <ul class="collapse">
+  <li><a href="#creating-the-dataloaders" id="toc-creating-the-dataloaders" class="nav-link" data-scroll-target="#creating-the-dataloaders">Creating the DataLoaders</a></li>
+  <li><a href="#creating-the-model" id="toc-creating-the-model" class="nav-link" data-scroll-target="#creating-the-model">Creating the Model</a></li>
+  <li><a href="#interpreting-the-embeddings" id="toc-interpreting-the-embeddings" class="nav-link" data-scroll-target="#interpreting-the-embeddings">Interpreting the Embeddings</a></li>
+  <li><a href="#generating-book-reviews" id="toc-generating-book-reviews" class="nav-link" data-scroll-target="#generating-book-reviews">Generating Book Reviews</a></li>
+  <li><a href="#neural-network" id="toc-neural-network" class="nav-link" data-scroll-target="#neural-network">Neural Network</a></li>
+  </ul></li>
+  <li><a href="#use-full-dataset" id="toc-use-full-dataset" class="nav-link" data-scroll-target="#use-full-dataset">Use Full DataSet</a></li>
+  <li><a href="#interpreting-the-full-model" id="toc-interpreting-the-full-model" class="nav-link" data-scroll-target="#interpreting-the-full-model">Interpreting the Full Model</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">making a book recommendation system</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">technical</div>
+    <div class="quarto-category">intermediate</div>
+    <div class="quarto-category">collaborative-filtering</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Using Collaborative Filtering to recommend books.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 15, 2021</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Turning this into an app that people can interact with:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://share.streamlit.io/jimmiemunyi/similarbooks/main/similar_books.py"><img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" class="img-fluid figure-img"></a></p>
+<p></p><figcaption class="figure-caption">Streamlit</figcaption><p></p>
+</figure>
+</div>
+<section id="imports" class="level1">
+<h1>Imports</h1>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.collab <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.tabular.<span class="bu">all</span> <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>We are going to use <a href="https://en.wikipedia.org/wiki/Collaborative_filtering">Collaborative Filtering</a> to create a book recommendation system. Recommender Systems based on collaborative make recommendations based on what similar users liked. So if I have read Inferno by Dan Brown and liked it (which I did), the system will look for books also liked by people who liked Inferno and recommend them to me.</p>
+<p>It uses a concept called <em>latent factors</em>. What are latent factors you may ask? Let us understand them using an example.</p>
+<p>Let us take two books. Inferno by Dan Brown and To Kill A MockingBird by Harper Lee. Those are two very different books. Let us consider three aspects to classify this books: classics (whether the book is a classic or not), action-oriented and new-gen (modern-times setting).</p>
+<p>We will give a score ranging from 1 to -1 to all these three aspects of our books, 1 meaning it scores high on that aspect and -1 for a low score.</p>
+<p>So, for example, To Kill a MockingBird is a classic, it is not so much action-oriented and also not so much new-gen. So its scores would look as follows:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mocking_bird <span class="op">=</span> np.array([<span class="fl">0.9</span>, <span class="op">-</span><span class="fl">0.85</span>, <span class="op">-</span><span class="fl">0.9</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For Inferno, which is not so much a classic, is action-oriented and is new-gen, we would have the following representation:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>inferno <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">0.9</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, let us hypothesize a reader who doesn’t enjoy classics that much, doesn’t mind action books and really prefers new-gen books (this user actually represents my liking).</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reader <span class="op">=</span> np.array([<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.2</span>, <span class="fl">0.9</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To see which book we need to recommend our not-so-much hypothetical reader, we will need to perform dot product between the book factors and the user factors. Dot product simply means multiply each consecutive items and add the results.</p>
+<div class="cell" data-outputid="9373daef-8f29-43e2-a2c5-f25bbec13fdd" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(reader<span class="op">*</span>mocking_bird).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>-1.4300000000000002</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="20fa502e-28f1-4a0f-881b-e97a8b588278" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(reader<span class="op">*</span>inferno).<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>1.4</code></pre>
+</div>
+</div>
+<p>Based on the results, we would want to recommend Inferno to our user and not To Kill A MockingBird since he wouldn’t enjoy the latter that much.</p>
+<p>The magic part about Collaborative Filtering and the reason we called our factors <em>latent</em> is that; we never tell our model anything about what factors to consider or how high or low a book or user scores on each factors. The model learns all that by itself. We simply feed it books rated by users and using that information, it figures out a way to score each factor. As I said, pretty magical.</p>
+<p>Let us see that in action.</p>
+</section>
+<section id="the-dataset" class="level1">
+<h1>The DataSet</h1>
+<p>Luckily, there is already a good dataset on books and ratings by users called GoodBooks10k available from <a href="https://github.com/zygmuntz/goodbooks-10k">this repo in github</a>. As the name suggests, it contains ratings of 10,000 books and 6 million ratings.</p>
+<p>We can download and extract the data using the following convinient functions:</p>
+<div class="cell" data-outputid="bd326c2a-d940-4ddb-e60b-9c74da6a8aad" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'data'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> path.exists():</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  path.mkdir()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  untar_data(<span class="st">'https://github.com/zygmuntz/goodbooks-10k/releases/download/v1.0/goodbooks-10k.zip'</span>, dest<span class="op">=</span>path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+</div>
+<p>We can inspect what has been downloaded:</p>
+<div class="cell" data-outputid="3206c83d-8f6b-4b18-9aec-139eecd76a29" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>path.ls(file_type<span class="op">=</span><span class="st">'text'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(#5) [Path('README.md'),Path('tags.csv'),Path('books.csv'),Path('book_tags.csv'),Path('ratings.csv')]</code></pre>
+</div>
+</div>
+<p>We are interested in the rating.csv file, since that is where the actual ratings are. We can load it up in a pandas dataframe:</p>
+<div class="cell" data-outputid="cf572ec1-3a33-4857-b77e-25aab30fc8de" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">'ratings.csv'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ratings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>book_id</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>258</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>4081</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>260</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>9296</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>2318</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5976474</th>
+      <td>49925</td>
+      <td>510</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5976475</th>
+      <td>49925</td>
+      <td>528</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5976476</th>
+      <td>49925</td>
+      <td>722</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>5976477</th>
+      <td>49925</td>
+      <td>949</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5976478</th>
+      <td>49925</td>
+      <td>1023</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+<p>5976479 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<p>We have a <code>user_id</code> column that represents each user, <code>book_id</code> to represent the books and the <code>rating</code> column is the rating given to a book by a particular user. It ranges from 0 to 5.</p>
+</section>
+<section id="subset-of-the-dataset" class="level1">
+<h1>Subset of the Dataset</h1>
+<p>We don’t want to work on the full dataset right away since it would take a long time to model and this would limit the number of experiments we can carry out.</p>
+<p>Instead, first we will work with only the first 100, 000 ratings.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> ratings.iloc[:<span class="dv">100000</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We check for any missing value and drop them if they exists:</p>
+<div class="cell" data-outputid="5e9afeb7-c3d7-4859-d176-21e3b7c9e2d0" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ratings.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>False</code></pre>
+</div>
+</div>
+<p>Another issue is with the <code>book_id</code>. The model as is would work even if we used <code>book_id</code> but for visual purposes, we’d rather have the book title to look at, since that is more informative to us (not the model).</p>
+<p>So we will have to load in the books.csv file and merge it with our ratings DataFrame.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>books <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">'books.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="3b47b475-dd1b-4310-8f0e-f7a3cb454bcf" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>books.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>Index(['book_id', 'goodreads_book_id', 'best_book_id', 'work_id',
+       'books_count', 'isbn', 'isbn13', 'authors', 'original_publication_year',
+       'original_title', 'title', 'language_code', 'average_rating',
+       'ratings_count', 'work_ratings_count', 'work_text_reviews_count',
+       'ratings_1', 'ratings_2', 'ratings_3', 'ratings_4', 'ratings_5',
+       'image_url', 'small_image_url'],
+      dtype='object')</code></pre>
+</div>
+</div>
+<p>We drop some columns which we don’t require:</p>
+<div class="cell" data-outputid="238f7b06-e675-42d5-a49e-f28159d03f58" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>books.drop([<span class="st">'best_book_id'</span>, <span class="st">'work_id'</span>, <span class="st">'title'</span>,<span class="st">'books_count'</span>, <span class="st">'language_code'</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">'isbn13'</span>, <span class="st">'isbn'</span>,<span class="st">'ratings_count'</span>, <span class="st">'work_ratings_count'</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">'work_text_reviews_count'</span>, <span class="st">'ratings_1'</span>, <span class="st">'ratings_2'</span>, <span class="st">'ratings_3'</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ratings_4'</span>, <span class="st">'ratings_5'</span>,<span class="st">'image_url'</span>, <span class="st">'small_image_url'</span>], </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>           axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>books.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>book_id</th>
+      <th>goodreads_book_id</th>
+      <th>authors</th>
+      <th>original_publication_year</th>
+      <th>original_title</th>
+      <th>average_rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2767052</td>
+      <td>Suzanne Collins</td>
+      <td>2008.0</td>
+      <td>The Hunger Games</td>
+      <td>4.34</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>3</td>
+      <td>J.K. Rowling, Mary GrandPré</td>
+      <td>1997.0</td>
+      <td>Harry Potter and the Philosopher's Stone</td>
+      <td>4.44</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>41865</td>
+      <td>Stephenie Meyer</td>
+      <td>2005.0</td>
+      <td>Twilight</td>
+      <td>3.57</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>2657</td>
+      <td>Harper Lee</td>
+      <td>1960.0</td>
+      <td>To Kill a Mockingbird</td>
+      <td>4.25</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>4671</td>
+      <td>F. Scott Fitzgerald</td>
+      <td>1925.0</td>
+      <td>The Great Gatsby</td>
+      <td>3.89</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Drop any missing values:</p>
+<div class="cell" data-outputid="0f71bdf9-94f5-42ac-a67c-e2f557f54edc" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>books.isnull().values.<span class="bu">any</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>books.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And finally merge it to one DataFrame:</p>
+<div class="cell" data-outputid="410c5861-6401-43cf-a232-55f399957b4d" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> ratings.merge(books)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>ratings.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>book_id</th>
+      <th>rating</th>
+      <th>goodreads_book_id</th>
+      <th>authors</th>
+      <th>original_publication_year</th>
+      <th>original_title</th>
+      <th>average_rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>258</td>
+      <td>5</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11</td>
+      <td>258</td>
+      <td>3</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>143</td>
+      <td>258</td>
+      <td>4</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>242</td>
+      <td>258</td>
+      <td>5</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>325</td>
+      <td>258</td>
+      <td>4</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="creating-the-dataloaders" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-dataloaders">Creating the DataLoaders</h2>
+<p>Since that looks okay, we can go ahead and create our <code>DataLoaders</code> object that we will feed to the model. A <code>DataLoaders</code> is simply a convinient object that holds our training and validation data and will pass in the data to our model in mini-batches.</p>
+<p>We can look up the documentation of a function by calling the <code>doc</code> function.</p>
+<div class="cell" data-outputid="872558d9-09da-4d58-df57-bdd4c3d2e517" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>doc(CollabDataLoaders.from_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<h4 id="CollabDataLoaders.from_df" class="doc_header anchored"><code>CollabDataLoaders.from_df</code><a href="https://github.com/fastai/fastai/tree/master/fastai/collab.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote class="blockquote"><p><code>CollabDataLoaders.from_df</code>(<strong><code>ratings</code></strong>, <strong><code>valid_pct</code></strong>=<em><code>0.2</code></em>, <strong><code>user_name</code></strong>=<em><code>None</code></em>, <strong><code>item_name</code></strong>=<em><code>None</code></em>, <strong><code>rating_name</code></strong>=<em><code>None</code></em>, <strong><code>seed</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>bs</code></strong>=<em><code>64</code></em>, <strong><code>val_bs</code></strong>=<em><code>None</code></em>, <strong><code>shuffle_train</code></strong>=<em><code>True</code></em>, <strong><code>device</code></strong>=<em><code>None</code></em>)</p>
+</blockquote>
+<p>Create a <code>DataLoaders</code> suitable for collaborative filtering from <code>ratings</code>.</p>
+<p><a href="https://docs.fast.ai/collab#CollabDataLoaders.from_df" target="_blank" rel="noreferrer noopener">Show in docs</a></p>
+</div>
+</div>
+<p>The above tells us what we will need to pass in the function in order to create our <code>DataLoaders</code>. Specifically we will need to pass in :</p>
+<ul>
+<li>The DataFrame we are creating from (ratings)</li>
+<li>Size of the Validation split (20%)</li>
+<li>The column that represents our user (user_id)</li>
+<li>The column that represents our item (original_title)</li>
+<li>The column that represents our rating (rating)</li>
+</ul>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> CollabDataLoaders.from_df(ratings<span class="op">=</span>ratings, valid_pct<span class="op">=</span><span class="fl">0.2</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                user_name<span class="op">=</span><span class="st">'user_id'</span>, item_name<span class="op">=</span><span class="st">'original_title'</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                rating_name<span class="op">=</span><span class="st">'rating'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can look at one batch of data:</p>
+<div class="cell" data-outputid="477a52b0-cd45-4603-fb97-6a6b108376ac" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>original_title</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>791</td>
+      <td>Sphere</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>543</td>
+      <td>Metamorphoses</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1835</td>
+      <td>1491: New Revelations of the Americas Before Columbus</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2688</td>
+      <td>Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>264</td>
+      <td>Jonathan Livingston Seagull</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2074</td>
+      <td>The Curious Incident of the Dog in the Night-Time</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2136</td>
+      <td>The Lovely Bones</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1089</td>
+      <td>Franny and Zooey</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2334</td>
+      <td>Great Expectations</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>750</td>
+      <td>The History of the Hobbit, Part One: Mr. Baggins</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>For the latent factors of both our books, we will initialize a random Embedding with a size of all the books we have and the number of factors we want. The same goes for the latent factors of our users.</p>
+<p>The values in these Embeddings will be updated by BackPropagation until they become meaningful.</p>
+<p>For our small subset of data, we will use 50 factors. This simply means we are giving our model an allowance to represent each books in 50 different ways (e.g.&nbsp;action, classics etc).</p>
+<p>So, we first should get the number of users and the number of books:</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>n_books <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'original_title'</span>])</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>n_users <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'user_id'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For learning purposes, we should also get into the habit of manually chekcking shapes of the data in our batches and see if we understand why it is so:</p>
+<div class="cell" data-outputid="3e9afb58-f3e3-49d6-dfb4-470f6697c104" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>xb, yb <span class="op">=</span> dls.one_batch()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>xb.shape, yb.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>(torch.Size([64, 2]), torch.Size([64, 1]))</code></pre>
+</div>
+</div>
+<p>We are using a batch size of 64, so that makes sense. For our independent variable (X), we have two items there, which are the user and the book and for the dependent variable (y), we only have the rating of the book. That is why the above shapes are so.</p>
+</section>
+<section id="creating-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-model">Creating the Model</h2>
+<p>Next, we need to handle the model part.</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CollabFiltering(Module):</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_users, n_books, n_factors, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>)):</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.u_weights <span class="op">=</span> Embedding(n_users, n_factors)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.u_bias <span class="op">=</span> Embedding(n_users, <span class="dv">1</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.i_weights <span class="op">=</span> Embedding(n_books, n_factors)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.i_bias <span class="op">=</span> Embedding(n_books, <span class="dv">1</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.y_range <span class="op">=</span> y_range</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    users <span class="op">=</span> <span class="va">self</span>.u_weights(x[:,<span class="dv">0</span>])</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    books <span class="op">=</span> <span class="va">self</span>.i_weights(x[:,<span class="dv">1</span>])</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> (users <span class="op">*</span> books).<span class="bu">sum</span>(dim<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    res <span class="op">+=</span> <span class="va">self</span>.u_bias(x[:,<span class="dv">0</span>]) <span class="op">+</span> <span class="va">self</span>.i_bias(x[:,<span class="dv">1</span>])</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> sigmoid_range(res, <span class="op">*</span><span class="va">self</span>.y_range)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our Model Inherits from <code>Module</code> which is what PyTorch expects:</p>
+<pre><code>class CollabFiltering(Module):</code></pre>
+<p>The model takes in the number of users, the number of books, the number of factors we want to use for modelling and a y_range that defaults to a tuple of (0, 5.5).</p>
+<p>The purpose of the y_range is to squish our output between 0 and 5. (We choose 5.5 as the upper limit since we are going to be using sigmoid range to contain our output. And since values in sigmoid never reach the upper limit, to predict a value of 5, we are going to need to go higher).</p>
+<p>It then creates the Embeddings of the users and the books. We are also going to create biases for each user and each book to capture the fact that some users generally more positive or negative in their recommendations than others and smoe books are just plain better or worse than others.</p>
+<pre><code>def __init__(self, n_users, n_books, n_factors, y_range=(0, 5.5)):
+    self.u_weights = Embedding(n_users, n_factors)
+    self.u_bias = Embedding(n_users, 1)
+    self.i_weights = Embedding(n_books, n_factors)
+    self.i_bias = Embedding(n_books, 1)
+    self.y_range = y_range</code></pre>
+<p>The forward method simply gets the factors from the user embedding and book embedding, performs dot product on them, adds the biases then uses sigmoid range to squish the output between 0 and 5 and returns the result.</p>
+<pre><code>def forward(self, x):
+    users = self.u_weights(x[:,0])
+    books = self.i_weights(x[:,1])
+    res = (users * books).sum(dim=1, keepdims=True)
+    res += self.u_bias(x[:,0]) + self.i_bias(x[:,1])
+    res = sigmoid_range(res, *self.y_range)
+    return res</code></pre>
+<p>We can now instantiate the model with 50 factors and create our Learner. We are going to use Mean Squared Error as our loss function since this is a regression problem.</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> CollabFiltering(n_users, n_books, <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, model, loss_func<span class="op">=</span>MSELossFlat())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us find a suitable Learning rate and train the model for 6 epochs. We use a weight decay of 0.2 to regularize our model</p>
+<div class="cell" data-outputid="4c307f11-dce9-4116-8c8c-4c72fec2a75a" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>SuggestedLRs(lr_min=0.03019951581954956, lr_steep=7.585775892948732e-05)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="similar-books_files/figure-html/cell-30-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="a6299b1a-8a0e-41ed-e6f6-31b901631ff5" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">6</span>, <span class="fl">1e-2</span>, wd<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.972651</td>
+      <td>0.988126</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.959149</td>
+      <td>0.947992</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.908314</td>
+      <td>0.913695</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.789891</td>
+      <td>0.863736</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.646984</td>
+      <td>0.828928</td>
+      <td>00:08</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0.538308</td>
+      <td>0.826404</td>
+      <td>00:08</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>We get a final MSE of 0.826404 which is actually pretty good for out task at hand.</p>
+</section>
+<section id="interpreting-the-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-embeddings">Interpreting the Embeddings</h2>
+<p>Let us start by interpretting the book biases. We could have easily ranked the books by the ratings and checked the last five items but bias tells us something more interesting. These books are books that, even if a user was well matched to the latent factors of the book (e.g action, comedy etc), they still didn’t like the books and that is why the books have a low bias. In short, they are generally bad books.</p>
+<p>These are the 5 books with the lowest bias from our model.</p>
+<div class="cell" data-outputid="406be2f9-ee53-4fe4-f119-0557a22a5cd1" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>book_bias <span class="op">=</span> learn.model.i_bias.weight.squeeze()</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> book_bias.argsort()[:<span class="dv">5</span>]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>['Trading Up',
+ 'One Night @ The Call Center',
+ 'Four Blondes',
+ 'Lost',
+ 'Eat That Frog!: 21 Great Ways to Stop Procrastinating and Get More Done in Less Time']</code></pre>
+</div>
+</div>
+<p>Since our rating DataFrame included the GoodReads ID of each book, we can create a URL of a single book and check out the reviews from GoodReads.</p>
+<p>Let’s use Four Blondes as an example. We can locate its entry in our DataFrame using the following code:</p>
+<div class="cell" data-outputid="3f9493a2-708a-4464-f7b6-b89fd1337823" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>books.loc[books[<span class="st">'original_title'</span>]<span class="op">==</span><span class="st">'Four Blondes'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>book_id</th>
+      <th>goodreads_book_id</th>
+      <th>authors</th>
+      <th>original_publication_year</th>
+      <th>original_title</th>
+      <th>average_rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4008</th>
+      <td>4009</td>
+      <td>6613</td>
+      <td>Candace Bushnell</td>
+      <td>2000.0</td>
+      <td>Four Blondes</td>
+      <td>2.8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Then using its <code>goodreads_id</code>, create a URL that we can follow to read its reviews:</p>
+<div class="cell" data-outputid="3c4f2355-5e28-4264-fecf-446ed31a853e" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="dv">6613</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'https://www.goodreads.com/book/show/</span><span class="sc">{</span><span class="bu">id</span><span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>'https://www.goodreads.com/book/show/6613'</code></pre>
+</div>
+</div>
+<p>I haven’t read the book myself but I don’t think I will too. Reading the reviews from GoodReads looks like people didn’t really enjoy this book. Here is one extract of the reviews:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="four_blondes.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Four Blondes Sample Review</figcaption><p></p>
+</figure>
+</div>
+<p>Now let us do the opposite, and check for the books with the highest book bias. This means that these are generally good books and even if you don’t enjoy such genres, there is a high chance you will enjoy this books:</p>
+<div class="cell" data-outputid="b61af801-2220-48d4-92a2-b0806a78bbf1" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> book_bias.argsort(descending<span class="op">=</span><span class="va">True</span>)[:<span class="dv">5</span>]</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>['Harry Potter and the Deathly Hallows',
+ 'A Thousand Splendid Suns',
+ 'Where the Wild Things Are',
+ 'Le Petit Prince',
+ 'دیوان\u200e\u200e [Dīvān]']</code></pre>
+</div>
+</div>
+<p>At the very top is a book I enjoyed very much myself: Harry Potter and the Deathly Hallows. Since I may be biased towards that book, let us check for reviews of a book I haven’t read myself.</p>
+<div class="cell" data-outputid="b6aa16dc-b7b5-4f21-e7f7-4ce47f5caadc" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="bu">int</span>(books.loc[books[<span class="st">'original_title'</span>]<span class="op">==</span><span class="st">'Le Petit Prince'</span>][<span class="st">'goodreads_book_id'</span>].values)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'https://www.goodreads.com/book/show/</span><span class="sc">{</span><span class="bu">id</span><span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>'https://www.goodreads.com/book/show/157993'</code></pre>
+</div>
+</div>
+<p>I was suprised to find that ‘Le Petit Prince’ or ‘The Little Prince’ was a child-like novel which adults enjoy as well. Here is one review from GoodReads:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="little_prince.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Little Prince Sample Review</figcaption><p></p>
+</figure>
+</div>
+<p>It is definitely on my to-read list now.</p>
+<p>Next, let us try and intepret the Book Embedding Factors. Remember, we had 50 factors in our model. Well, intepreting a 50-dimensional Embedding turns out to be a difficult task for us human beings.</p>
+<p>Luckily we have a method called <code>PCA</code> which stands for Principal Component Analysis that can be used to reduce the dimensions to something that can be plotted in a graph.</p>
+<p>Here is the outcome:</p>
+<div class="cell" data-outputid="6ef336d6-93d8-41f6-931d-d056aa62e11b" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> ratings.groupby(<span class="st">'original_title'</span>)[<span class="st">'rating'</span>].count()</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>top_books <span class="op">=</span> g.sort_values(ascending<span class="op">=</span><span class="va">False</span>).index.values[:<span class="dv">10000</span>]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>top_idxs <span class="op">=</span> tensor([learn.dls.classes[<span class="st">'original_title'</span>].o2i[m] <span class="cf">for</span> m <span class="kw">in</span> top_books])</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>books_w <span class="op">=</span> learn.model.i_weights.weight[top_idxs].cpu().detach()</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>books_pca <span class="op">=</span> books_w.pca(<span class="dv">3</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>fac0,fac1,fac2 <span class="op">=</span> books_pca.t()</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">50</span>))</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> fac0[idxs]</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> fac2[idxs]</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>plt.scatter(X, Y)</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, x, y <span class="kw">in</span> <span class="bu">zip</span>(top_books[idxs], X, Y):</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    plt.text(x,y,i, color<span class="op">=</span>np.random.rand(<span class="dv">3</span>)<span class="op">*</span><span class="fl">0.7</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="similar-books_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Representation of Books based on two strongest PCA components</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see, our model has learned for itself to seperate the books into different categories. If you look at the very top, we have the classic books, the likes of <em>To Kill A MockingBird</em> and <em>The Great Gatsby</em>. At the right side we have the likes of <em>The Da Vinci Code</em> and <em>Angels and Demons</em> which are more of Mystery Thriller Novels and are more of reality fiction novels. At the bottom we have <em>The Hobit</em> books which are more of fantasy novels and Mythology.</p>
+<p>What is magical is our model learned all of these on its own! We never explicitely told it what genres a particular book belongs to. We only fed it user ratings and it learned all about them itself.</p>
+</section>
+<section id="generating-book-reviews" class="level2">
+<h2 class="anchored" data-anchor-id="generating-book-reviews">Generating Book Reviews</h2>
+<p>Now comes the interesting part. How to generate a book review for a user. It is actually a very simple concept. The intuition is two similar books should have a smaller distance between them (of the Embeddings) than two different books. So, we will require a reader to input the name of a book he or she enjoyed reading and we will generate a recommendation of books for them.</p>
+<p>Let us experiment with ‘The Da Vinci Code’ by Dan Brown and see the 5 most similar books to it using our model:</p>
+<div class="cell" data-outputid="e9a24ee4-7dcb-497d-8327-c63233f3f649" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>book_factors <span class="op">=</span> learn.model.i_weights.weight</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> dls.classes[<span class="st">'original_title'</span>].o2i[<span class="st">'The Da Vinci Code'</span>]</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>distances <span class="op">=</span> nn.CosineSimilarity(dim<span class="op">=</span><span class="dv">1</span>)(book_factors, book_factors[idx][<span class="va">None</span>])</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> distances.argsort(descending<span class="op">=</span><span class="va">True</span>)[<span class="dv">1</span>:<span class="dv">6</span>]</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>['The Sweet Far Thing',
+ 'Angels &amp; Demons ',
+ 'Back Roads',
+ "What to Expect When You're Expecting",
+ 'What to Expect the First Year']</code></pre>
+</div>
+</div>
+<p>According to our model, The Sweet Far Thing is the most similar book, so let us generate a URL and see the reviews:</p>
+<div class="cell" data-outputid="1c017cdd-3394-4b1b-dc86-798fef083980" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="bu">int</span>(books.loc[books[<span class="st">'original_title'</span>]<span class="op">==</span><span class="st">'The Sweet Far Thing'</span>][<span class="st">'goodreads_book_id'</span>].values)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'https://www.goodreads.com/book/show/</span><span class="sc">{</span><span class="bu">id</span><span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>'https://www.goodreads.com/book/show/127459'</code></pre>
+</div>
+</div>
+<p>The book description describes it as a Thriller novel which was the same case with The Da Vinci Code.</p>
+</section>
+<section id="neural-network" class="level2">
+<h2 class="anchored" data-anchor-id="neural-network">Neural Network</h2>
+<p>Now, we will experiment with a Neural Network Model and see if it performs better than our Dot Product Model.</p>
+<p>To turn our Model into a Deep Learning Model, we need to concatenate the Embeddings together and pass them through linear layers with non-linearities between them. Our Neural network will have 100 neurons and utilize a ReLU between them. Here is the code:</p>
+<div class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CollabFilteringNN(Module):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, user_sz, book_sz, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>), n_act<span class="op">=</span><span class="dv">100</span>):</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.user_factors <span class="op">=</span> Embedding(<span class="op">*</span>user_sz)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.book_factors <span class="op">=</span> Embedding(<span class="op">*</span>book_sz)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.layers <span class="op">=</span> nn.Sequential(</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>        nn.Linear(user_sz[<span class="dv">1</span>]<span class="op">+</span>book_sz[<span class="dv">1</span>], n_act),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>        nn.ReLU(),</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>        nn.Linear(n_act, <span class="dv">1</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.y_range <span class="op">=</span> y_range</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    embs <span class="op">=</span> <span class="va">self</span>.user_factors(x[:,<span class="dv">0</span>]), <span class="va">self</span>.book_factors(x[:,<span class="dv">1</span>])</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="va">self</span>.layers(torch.cat(embs, dim<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sigmoid_range(x, <span class="op">*</span><span class="va">self</span>.y_range)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then instantiate the neural network. We will use the <code>get_emb_sz</code> to get good Embedding sizes for our users and books. Remember since we will concatenate the Embeddings and not multiply them, they can now have different sizes.</p>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>nn_model <span class="op">=</span> CollabFilteringNN(<span class="op">*</span>get_emb_sz(dls))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can check out our model:</p>
+<div class="cell" data-outputid="2ea415c8-d1b4-4772-9fec-528bc5b5c86f" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>nn_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>CollabFilteringNN(
+  (user_factors): Embedding(1795, 106)
+  (book_factors): Embedding(4879, 186)
+  (layers): Sequential(
+    (0): Linear(in_features=292, out_features=100, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=100, out_features=1, bias=True)
+  )
+)</code></pre>
+</div>
+</div>
+<p>We will now create our Learner with the same <code>MSE</code> loss function, find a suitable learning rate and fit our model for 5 epochs using a regularization weight decay of 0.05:</p>
+<div class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, nn_model, loss_func<span class="op">=</span>MSELossFlat())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="496d39e3-64d3-47d2-d7e4-2df181c5c204" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>SuggestedLRs(lr_min=0.006918309628963471, lr_steep=3.311311274956097e-06)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="similar-books_files/figure-html/cell-44-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="9d757e52-b073-4ae3-da18-9103b5e72162" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> Learner(dls, nn_model, loss_func<span class="op">=</span>MSELossFlat())</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">5</span>, <span class="fl">1e-2</span>, wd<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.775485</td>
+      <td>0.819169</td>
+      <td>00:25</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.805927</td>
+      <td>0.817436</td>
+      <td>00:29</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.777418</td>
+      <td>0.803896</td>
+      <td>00:30</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.716998</td>
+      <td>0.798450</td>
+      <td>00:26</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.652017</td>
+      <td>0.812329</td>
+      <td>00:25</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>We get roughly the same final MSE.</p>
+</section>
+</section>
+<section id="use-full-dataset" class="level1">
+<h1>Use Full DataSet</h1>
+<p>Since we are done prototyping and experimenting with the small dataset, it is time to use the full dataset for modelling.</p>
+<p>Our full dataset has around 6 million ratings, instead of the 100k we worked with earlier. Therefore it will probably take longer to train. Due to that, we need to train the model for a short number of epochs then save the model’s current progress before we continue training.</p>
+<p>We will load in the ratings and pre-process the DataSet as before, then create a DataLoaders object and train the model:</p>
+<div class="cell" data-outputid="c7358b71-2eb1-4016-d806-996db251c0ba" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> pd.read_csv(path<span class="op">/</span><span class="st">'ratings.csv'</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>ratings.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>book_id</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>258</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>4081</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>260</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>9296</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>2318</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-outputid="0880987e-0d71-4f7b-c8a1-01482984435d" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>ratings <span class="op">=</span> ratings.merge(books)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>ratings.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>book_id</th>
+      <th>rating</th>
+      <th>goodreads_book_id</th>
+      <th>authors</th>
+      <th>original_publication_year</th>
+      <th>original_title</th>
+      <th>average_rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>258</td>
+      <td>5</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11</td>
+      <td>258</td>
+      <td>3</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>143</td>
+      <td>258</td>
+      <td>4</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>242</td>
+      <td>258</td>
+      <td>5</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>325</td>
+      <td>258</td>
+      <td>4</td>
+      <td>1232</td>
+      <td>Carlos Ruiz Zafón, Lucia Graves</td>
+      <td>2001.0</td>
+      <td>La sombra del viento</td>
+      <td>4.24</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>dls <span class="op">=</span> CollabDataLoaders.from_df(ratings<span class="op">=</span>ratings, valid_pct<span class="op">=</span><span class="fl">0.2</span>, </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>                                user_name<span class="op">=</span><span class="st">'user_id'</span>, item_name<span class="op">=</span><span class="st">'original_title'</span>,</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>                                rating_name<span class="op">=</span><span class="st">'rating'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="49eca74f-e86b-44f0-9c3c-a70ed97a7313" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>dls.show_batch()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>user_id</th>
+      <th>original_title</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14055</td>
+      <td>The Crying of Lot 49</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>52968</td>
+      <td>The Gunslinger</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14644</td>
+      <td>The Five People You Meet in Heaven</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5431</td>
+      <td>The Gods Themselves</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>31889</td>
+      <td>A Wrinkle in Time</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>27179</td>
+      <td>Jurassic Park</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>46433</td>
+      <td>Watchmen</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>43269</td>
+      <td>The Fault in Our Stars</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>39282</td>
+      <td>A Return to Love: Reflections on the Principles of "A Course in Miracles"</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>11652</td>
+      <td>The Mist</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>n_users <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'user_id'</span>])</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>n_books <span class="op">=</span> <span class="bu">len</span>(dls.classes[<span class="st">'original_title'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="645c96e4-a4a8-4671-e3e7-f52e0d54575f" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>doc(collab_learner)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<h4 id="collab_learner" class="doc_header anchored" data-anchor-id="use-full-dataset"><code>collab_learner</code><a href="https://github.com/fastai/fastai/tree/master/fastai/collab.py#L90" class="source_link" style="float:right">[source]</a></h4><blockquote class="blockquote"><p><code>collab_learner</code>(<strong><code>dls</code></strong>, <strong><code>n_factors</code></strong>=<em><code>50</code></em>, <strong><code>use_nn</code></strong>=<em><code>False</code></em>, <strong><code>emb_szs</code></strong>=<em><code>None</code></em>, <strong><code>layers</code></strong>=<em><code>None</code></em>, <strong><code>config</code></strong>=<em><code>None</code></em>, <strong><code>y_range</code></strong>=<em><code>None</code></em>, <strong><code>loss_func</code></strong>=<em><code>None</code></em>, <strong><code>opt_func</code></strong>=<em><code>Adam</code></em>, <strong><code>lr</code></strong>=<em><code>0.001</code></em>, <strong><code>splitter</code></strong>=<em><code>trainable_params</code></em>, <strong><code>cbs</code></strong>=<em><code>None</code></em>, <strong><code>metrics</code></strong>=<em><code>None</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>, <strong><code>model_dir</code></strong>=<em><code>'models'</code></em>, <strong><code>wd</code></strong>=<em><code>None</code></em>, <strong><code>wd_bn_bias</code></strong>=<em><code>False</code></em>, <strong><code>train_bn</code></strong>=<em><code>True</code></em>, <strong><code>moms</code></strong>=<em><code>(0.95, 0.85, 0.95)</code></em>)</p>
+</blockquote>
+<p>Create a Learner for collaborative filtering on <code>dls</code>.</p>
+<p><a href="https://docs.fast.ai/collab#collab_learner" target="_blank" rel="noreferrer noopener">Show in docs</a></p>
+</div>
+</div>
+<p>We will use the collab_learner provided by fastai for convinience purposes and since I want to export my model after and create an inference app after.</p>
+<p><strong>Note</strong>: It does the exact same thing as our DotProduct Model but has some nice additions on top.</p>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> collab_learner(dls, n_factors<span class="op">=</span><span class="dv">500</span>, y_range<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">5.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="f4f10202-d22c-493e-98ab-c870924c0ff3" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>SuggestedLRs(lr_min=0.19054607152938843, lr_steep=2.511886486900039e-05)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="similar-books_files/figure-html/cell-53-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="cc8bc166-34da-49cd-983b-7fc166628515" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">4</span>, <span class="fl">1e-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>7.333699</td>
+      <td>7.176844</td>
+      <td>24:07</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>7.123693</td>
+      <td>6.995453</td>
+      <td>24:09</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5.130961</td>
+      <td>5.162658</td>
+      <td>23:57</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1.104243</td>
+      <td>1.095618</td>
+      <td>24:06</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>After 4 epochs, we get a MSE of 1.09. This is probably a good time to save the model so we do not lose our progress:</p>
+<div class="cell" data-outputid="41b6d119-bdcf-4ac0-c8e4-3540acb914f5" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>learn.save(<span class="st">'4epochs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>Path('models/4epochs.pth')</code></pre>
+</div>
+</div>
+<p>We can now load up the model and find continue training it for two more epochs and see if it improves:</p>
+<div class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> learn.load(<span class="st">'4epochs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-outputid="efd47239-8f5a-455e-8631-d17b09ea1527" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>learn.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="58">
+<pre><code>EmbeddingDotBias(
+  (u_weight): Embedding(53425, 500)
+  (i_weight): Embedding(9269, 500)
+  (u_bias): Embedding(53425, 1)
+  (i_bias): Embedding(9269, 1)
+)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="1f825f9b-49b1-4fbf-bd60-e9b5e331f8d1" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+</div>
+<div class="cell-output cell-output-display" data-execution_count="59">
+<pre><code>SuggestedLRs(lr_min=0.002754228748381138, lr_steep=8.31763736641733e-06)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="similar-books_files/figure-html/cell-59-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-outputid="85cdd055-7d83-4c8e-8358-41feacc2a197" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">2</span>, <span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th>epoch</th>
+      <th>train_loss</th>
+      <th>valid_loss</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.631629</td>
+      <td>0.749671</td>
+      <td>24:14</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.374357</td>
+      <td>0.715882</td>
+      <td>24:15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<p>We go down to an MSE of 0.71 which is even better than what we got with the subset of the dataset.</p>
+<p>Since it is taking long to train and I was happy with the results at this point, I stopped after 6 epochs and saved the model. However, if you have time and resources, you can continue training using the same process of saving progress after a few epochs.</p>
+<div class="cell" data-outputid="ba57b654-2bde-4ac8-c62c-4a66d2e13193" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>learn.save(<span class="st">'6epochs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>Path('models/6epochs.pth')</code></pre>
+</div>
+</div>
+</section>
+<section id="interpreting-the-full-model" class="level1">
+<h1>Interpreting the Full Model</h1>
+<p>We can see what our model with the full dataset learned.</p>
+<p>We will start with the 5 books with the lowest bias (Generally bad books even if you would like the genre):</p>
+<div class="cell" data-outputid="8a598505-b67f-46cd-a325-866aac96c88f" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>book_bias <span class="op">=</span> learn.model.i_bias.weight.squeeze()</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> book_bias.argsort()[:<span class="dv">5</span>]</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="63">
+<pre><code>['One Night @ The Call Center',
+ 'Half Girlfriend',
+ 'ليتها تقرأ',
+ 'The 3 Mistakes of My Life',
+ 'of course i love you']</code></pre>
+</div>
+</div>
+<p>The book <em>One Night @ The Call Center</em> makes another appearance. It must be a really bad book.</p>
+<p>Now for the generally good books, the books with the highest book bias:</p>
+<div class="cell" data-outputid="770662d2-ee12-4983-db87-5f3eba3f0425" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> book_bias.argsort(descending<span class="op">=</span><span class="va">True</span>)[:<span class="dv">5</span>]</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idxs]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>['The Complete Calvin and Hobbes',
+ 'Words of Radiance',
+ 'Complete Harry Potter Boxed Set',
+ 'The Essential Calvin and Hobbes: A Calvin and Hobbes Treasury',
+ 'The Calvin and Hobbes Tenth Anniversary Book']</code></pre>
+</div>
+</div>
+<p>Harry Potter makes another appearance. Let us check out one of the books:</p>
+<div class="cell" data-outputid="1e3c1cb2-1503-4784-bce3-6666f9142e19" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="bu">id</span> <span class="op">=</span> <span class="bu">int</span>(books.loc[books[<span class="st">'original_title'</span>]<span class="op">==</span><span class="st">'Words of Radiance'</span>][<span class="st">'goodreads_book_id'</span>].values)</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="ss">f'https://www.goodreads.com/book/show/</span><span class="sc">{</span><span class="bu">id</span><span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>url</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<pre><code>'https://www.goodreads.com/book/show/17332218'</code></pre>
+</div>
+</div>
+<p>Here is a sample review of the book:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="words_of_radiance.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Words of Radiance Sample Review</figcaption><p></p>
+</figure>
+</div>
+<p>Next we can check out the Book Embeddings using the PCA trick we utilized before:</p>
+<div class="cell" data-outputid="62c59cce-502d-4064-c0c8-bd0ca6460da6" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>learn.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<pre><code>EmbeddingDotBias(
+  (u_weight): Embedding(53425, 500)
+  (i_weight): Embedding(9269, 500)
+  (u_bias): Embedding(53425, 1)
+  (i_bias): Embedding(9269, 1)
+)</code></pre>
+</div>
+</div>
+<div class="cell" data-outputid="c2a2f12e-d012-4fc3-9ce0-e41edb17cc76" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> ratings.groupby(<span class="st">'original_title'</span>)[<span class="st">'rating'</span>].count()</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>top_books <span class="op">=</span> g.sort_values(ascending<span class="op">=</span><span class="va">False</span>).index.values[:<span class="dv">10000</span>]</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>top_idxs <span class="op">=</span> tensor([learn.dls.classes[<span class="st">'original_title'</span>].o2i[m] <span class="cf">for</span> m <span class="kw">in</span> top_books])</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>books_w <span class="op">=</span> learn.model.i_weight.weight[top_idxs].cpu().detach()</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>books_pca <span class="op">=</span> books_w.pca(<span class="dv">3</span>)</span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>fac0,fac1,fac2 <span class="op">=</span> books_pca.t()</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>idxs <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">50</span>))</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> fac0[idxs]</span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> fac2[idxs]</span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>,<span class="dv">12</span>))</span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>plt.scatter(X, Y)</span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, x, y <span class="kw">in</span> <span class="bu">zip</span>(top_books[idxs], X, Y):</span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a>    plt.text(x,y,i, color<span class="op">=</span>np.random.rand(<span class="dv">3</span>)<span class="op">*</span><span class="fl">0.7</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="similar-books_files/figure-html/cell-67-output-1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Representation of Books based on two strongest PCA components</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And we can check the distances (similar books). We use The Da Vinci Code again as an example:</p>
+<div class="cell" data-outputid="f4b07c68-561a-4ba5-f4c7-de59e582c775" data-execution_count="73">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>book_factors <span class="op">=</span> learn.model.i_weight.weight</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> dls.classes[<span class="st">'original_title'</span>].o2i[<span class="st">'The Da Vinci Code'</span>]</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>distances <span class="op">=</span> nn.CosineSimilarity(dim<span class="op">=</span><span class="dv">1</span>)(book_factors, book_factors[idx][<span class="va">None</span>])</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> distances.argsort(descending<span class="op">=</span><span class="va">True</span>)[<span class="dv">1</span>:<span class="dv">6</span>]</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="co"># dls.classes['original_title'][idx]</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>[dls.classes[<span class="st">'original_title'</span>][i] <span class="cf">for</span> i <span class="kw">in</span> idx]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="73">
+<pre><code>['Angels &amp; Demons ',
+ 'The Lost Symbol',
+ 'Deception Point',
+ 'Digital Fortress',
+ 'The Firm']</code></pre>
+</div>
+</div>
+<p>Now that I am happy with my model, I will export it and use it to create a Web App for Recommending Similar Books. That will be in Part 2 of this blog and it is coming soon.</p>
+<div class="cell" data-execution_count="74">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">'final_model.pkl'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2022, Jimmie Munyi</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/jimmiemunyi">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/jimmie_munyi">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
