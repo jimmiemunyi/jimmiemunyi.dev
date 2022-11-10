@@ -3,16 +3,24 @@ project:
   output-dir: docs
 
 website:
-  title: "Jimmie Munyi"
+  title: "jimmie munyi"
+  site-url: https://jimmiemunyi.dev/
+  description: "thoughts"
   favicon: favicon.png
+  google-analytics: G-0HHNW4RVEE
   navbar:
+    left:
+      - href: about.qmd
+        text: about
+      - href: notes.qmd
+        text: notes
     right:
-      - projects.qmd
-      - about.qmd
       - icon: github
         href: https://github.com/jimmiemunyi
       - icon: twitter
         href: https://twitter.com/jimmie_munyi
+      - icon: rss
+        href: index.xml
   page-footer: 
     left: "Copyright 2022, Jimmie Munyi" 
     right: 
@@ -20,14 +28,15 @@ website:
         href: https://github.com/jimmiemunyi
       - icon: twitter 
         href: https://twitter.com/jimmie_munyi
-  opengraph: true
-  twitter-card: true
+  open-graph: true
+  twitter-card:
+    creator: "@jimmie_munyi"
+    image: jimmie-new.jpg
   reader-mode: true
 format:
   html:
     theme: 
       light: litera
-      dark: darkly
     css: styles.css
 
 

@@ -1,0 +1,47 @@
+---
+title: "there's no such thing as not a computer person"
+description: Debunking the myth.
+author: "Jimmie Munyi"
+date: 'Nov 10, 2022'
+categories: [thoughts]
+toc: false
+highlight-style: pygments
+format: html
+---
+
+My coding path has always left me inspired to talk others into learning to code themselves. It may be a little selfish, but it is with the best intentions. Programming is a beautiful thing. Having the opportunity to bring ideas to life is magic. It creates great opportunities for our future and even our current lives.
+
+“*I’m not that into computers anyway*”, is the response I get most, which is okay, I understand. In this post, I try and respond to that, from my point of view.
+
+## relating coding to a spoken language
+
+Let us start by relating coding to a commonly spoken language globally like English, although this analogy extends to any other language of your choice. This sounds weird at first but we will get to that. 
+
+Most people learn English (again, or any other spoken Language), irrespective of their field of specialization. It helps them communicate with each other and share their ideas. Whether you are an international ambassador, a teacher, a doctor or even a security guard, no one is stopping you from learning how to speak in English. You don’t have to switch careers or anything. 
+
+You pick up the vocabulary relating to your area of interest and share your ideas using the specific vocabulary. For example, a doctor uses words such as *cardiac arrest* and *pulmonary artery* to speak to his patients and workmates. A teacher uses vocabulary that makes sense to his students. The same applies to lawyers or secretaries. We are all taking the general English Language and specifying how to use it in our particular domain.
+
+## study of a language as a specific domain
+At the same time, some people study the English Language itself as a domain, and they are responsible for its advancement and development and make sure we use it correctly. They are concerned with creating and updating tools like dictionaries and English wikis and tutorials.
+
+## how it relates to programming
+
+How does this relate to programming? Well, computer code is just a language by itself, a language for computers.
+
+We start with the people generally concerned with the programming domain. They are better known as software engineers. These are the scary tech people who stare at colored screens with scrolling text as they jam into their keyboards. (We honestly don't do this, our work is much more chill and exciting.) 
+
+These people, in their way, ensure the continuity of programming. Some of them write the programming languages themselves, and others create tutorials and wiki's for newbies to use to ease into programming. Some of them are creating the hardware we use in our daily lives. Most of them are developing specific software that solves particular problems. Recently, we have even gotten software 2.0 developers who do amazing stuff in Artificial Intelligence. 
+
+These are also the people who are considered *into computers* by society. And people feel like, if they aren't these people, then they are just not into computers. Such as Rachel Thomas argues that <a href="https://www.fast.ai/posts/2022-03-15-math-person.html"> there's no such thing as not a math person</a> (which is where I got my title btw), I want to argue the same applies to computers and programming too.
+
+The Coding Language isn’t limited to the nerds and software engineers, just as the English Language isn’t limited to the ‘English guys’. 
+
+Anyone can (and should) learn how to code, because only you know how to best implement it into your domain. Only a doctor can know how to implement ideas about ‘cardiac arrest’ and ‘pulmonary arteries’ with the help of code. Who knows, you could create a program that helps you to effectively differentiate a malignant tumor from a benign tumor, to help curb cancer. A lawyer can develop a data mining system to learn all about the guy he or she is representing and learn all about the case. If you are into charity, you can develop a system where people can donate to your society from anywhere in your world and can spread knowledge to others. The security guard can develop a system to curb crime in the estate his guarding. One where people can communicate with each other during attacks, and inform the police. 
+
+What I am trying to convey is, you don’t have to switch careers or ‘be that into computers’ to learn how to code. You can learn how to code and solve problems in your domain and at the same time, keep your career.
+
+## learning to code
+
+I would be lying if I told you that programming was a breeze. It has its challenges. You have to pick a language according to what you eventually want to achieve and learn its syntax and how to express ideas with it. For example, if you want to develop mobile applications, you are better off learning Kotlin than Python. On a similar note, if you want to do machine learning, then Python is currently the best language to learn.
+
+Therefore do your research. Do not get into *coding wars*. You will see them everywhere in your journey. People online arguing that one language is better than the other, that one development tool is better than the other one, and that people who use a certain IDE aren't true programmers. Filter out the noise and focus on building cool things that change the world, or at least make the current one more habitable.
