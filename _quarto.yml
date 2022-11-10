@@ -31,7 +31,6 @@ website:
   open-graph: true
   twitter-card:
     creator: "@jimmie_munyi"
-    image: jimmie-new.jpg
   reader-mode: true
 format:
   html:
