@@ -41,6 +41,7 @@ Here is a non-exhaustive list of books that I have read that have been the most 
 - Introduction to Psychology - James Kalat
 - The Demon-Haunted World: Science as a Candle in the Dark.
 - Surely you are joking, Mr. Feynman!
+- How We Know What Isn't So: The Fallibility of Human Reason in Everyday Life.
 - Thinking, Fast and Slow.
 - Deep Learning for Coders.
 - Neural Networks from Scratch - <a href="https://nnfs.io/">link</a>
