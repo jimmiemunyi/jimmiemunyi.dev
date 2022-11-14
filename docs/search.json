@@ -7,6 +7,13 @@
     "text": "my notes from podcasts, YouTube videos, talks, online MOOCs, etc.\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
+    "objectID": "til.html",
+    "href": "til.html",
+    "title": "today i learned",
+    "section": "",
+    "text": "Short posts based on what I learned.\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "posts/sign-language/sign-language-classification.html",
     "href": "posts/sign-language/sign-language-classification.html",
     "title": "sign language classification",
@@ -410,7 +417,7 @@
     "href": "about.html#blogs-i-enjoy",
     "title": "about me",
     "section": "blogs I enjoy",
-    "text": "blogs I enjoy\nI update this regularly. For now, these are the blogs I follow and enjoy:\n\nGeorge Hotz\nPaul Graham\nAndrej Karpathy\nJulian Schrittwieser\nfast.ai\nEnid Kathambi (Kenyan Finance blog)"
+    "text": "blogs I enjoy\nI update this regularly. For now, these are the blogs I follow and enjoy:\n\nGeorge Hotz\nPaul Graham\nAndrej Karpathy\nJulian Schrittwieser\nfast.ai\nBalaji Srinivasan\nVicki Boykis\nCalm Code by Vincent D. Warmerdam\nVincent D. Warmerdam (Personal Blog)\nShreya Shankar\nSimon Willison\nEnid Kathambi (Kenyan Finance blog)"
   },
   {
     "objectID": "about.html#notes",
@@ -438,6 +445,6 @@
     "href": "index.html",
     "title": "blog posts",
     "section": "",
-    "text": "there’s no such thing as not a computer person\n\n\n\n\n\nDebunking the myth.\n\n\n\n\n\n\nNov 10, 2022\n\n\n4 min\n\n\n\n\n\n\n\n\nmaking transfer learning work in plain PyTorch\n\n\n\n\n\nTips to effectively use Transfer Learning in the Vision Domain\n\n\n\n\n\n\nOct 17, 2021\n\n\n7 min\n\n\n\n\n\n\n\n\ndeep residual learning for image recognition (2015)\n\n\n\n\n\nImplementing the ResNet Paper\n\n\n\n\n\n\nSep 28, 2021\n\n\n12 min\n\n\n\n\n\n\n\n\nlearning from sound\n\n\n\n\n\nClassifying respiratory sounds with PyTorch and torchaudio\n\n\n\n\n\n\nSep 14, 2021\n\n\n10 min\n\n\n\n\n\n\n\n\nmaking a book recommendation system\n\n\n\n\n\nUsing Collaborative Filtering to recommend books.\n\n\n\n\n\n\nFeb 15, 2021\n\n\n12 min\n\n\n\n\n\n\n\n\nsign language inference\n\n\n\n\n\nCreating a realtime sign language intepreter.\n\n\n\n\n\n\nJan 21, 2021\n\n\n5 min\n\n\n\n\n\n\n\n\nsign language classification\n\n\n\n\n\nTraining Our Model for Classifying Sign Language\n\n\n\n\n\n\nJan 20, 2021\n\n\n6 min\n\n\n\n\n\n\n\n\nhandling imbalance in medical datasets\n\n\n\n\n\nHow to train models in the medical domain where datasets are often imbalanced\n\n\n\n\n\n\nOct 14, 2020\n\n\n5 min\n\n\n\n\n\n\n\n\ntraining state of the art models with little data and compute using transfer learning\n\n\n\n\n\nA Beginner’s Practical look into Transfer Learning\n\n\n\n\n\n\nOct 2, 2020\n\n\n9 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Experiments that do not make it to blog posts: Deep Learning Experiments\n\n\n\n\n\n\n\n\n\n\n\nthere’s no such thing as not a computer person\n\n\n\n\n\nDebunking the myth.\n\n\n\n\n\n\nNov 10, 2022\n\n\n4 min\n\n\n\n\n\n\n\n\nmaking transfer learning work in plain PyTorch\n\n\n\n\n\nTips to effectively use Transfer Learning in the Vision Domain\n\n\n\n\n\n\nOct 17, 2021\n\n\n7 min\n\n\n\n\n\n\n\n\ndeep residual learning for image recognition (2015)\n\n\n\n\n\nImplementing the ResNet Paper\n\n\n\n\n\n\nSep 28, 2021\n\n\n12 min\n\n\n\n\n\n\n\n\nlearning from sound\n\n\n\n\n\nClassifying respiratory sounds with PyTorch and torchaudio\n\n\n\n\n\n\nSep 14, 2021\n\n\n10 min\n\n\n\n\n\n\n\n\nmaking a book recommendation system\n\n\n\n\n\nUsing Collaborative Filtering to recommend books.\n\n\n\n\n\n\nFeb 15, 2021\n\n\n12 min\n\n\n\n\n\n\n\n\nsign language inference\n\n\n\n\n\nCreating a realtime sign language intepreter.\n\n\n\n\n\n\nJan 21, 2021\n\n\n5 min\n\n\n\n\n\n\n\n\nsign language classification\n\n\n\n\n\nTraining Our Model for Classifying Sign Language\n\n\n\n\n\n\nJan 20, 2021\n\n\n6 min\n\n\n\n\n\n\n\n\nhandling imbalance in medical datasets\n\n\n\n\n\nHow to train models in the medical domain where datasets are often imbalanced\n\n\n\n\n\n\nOct 14, 2020\n\n\n5 min\n\n\n\n\n\n\n\n\ntraining state of the art models with little data and compute using transfer learning\n\n\n\n\n\nA Beginner’s Practical look into Transfer Learning\n\n\n\n\n\n\nOct 2, 2020\n\n\n9 min\n\n\n\n\n\n\nNo matching items"
   }
 ]

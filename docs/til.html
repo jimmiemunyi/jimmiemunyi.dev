@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>jimmie munyi - about me</title>
+<title>jimmie munyi - today i learned</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,9 +31,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
@@ -58,6 +61,35 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-0HHNW4RVEE"></script>
 
 <script type="text/javascript">
@@ -68,20 +100,19 @@ gtag('js', new Date());
 gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="jimmie munyi - about me">
-<meta property="og:description" content="I am a software engineer from Kenya. My major interests revolve around AI and deep learning.">
-<meta property="og:image" content="https://jimmiemunyi.dev/jimmie-new.jpg">
+<meta property="og:title" content="jimmie munyi - today i learned">
+<meta property="og:description" content="Short posts based on what I learned.">
 <meta property="og:site-name" content="jimmie munyi">
-<meta name="twitter:title" content="jimmie munyi - about me">
-<meta name="twitter:description" content="I am a software engineer from Kenya. My major interests revolve around AI and deep learning.">
-<meta name="twitter:image" content="https://jimmiemunyi.dev/jimmie-new.jpg">
+<meta name="twitter:title" content="jimmie munyi - today i learned">
+<meta name="twitter:description" content="Short posts based on what I learned.">
 <meta name="twitter:creator" content="@jimmie_munyi">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -98,7 +129,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page">
+    <a class="nav-link" href="./about.html">
  <span class="menu-text">about</span></a>
   </li>  
   <li class="nav-item">
@@ -106,7 +137,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
  <span class="menu-text">notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./til.html">
+    <a class="nav-link active" href="./til.html" aria-current="page">
  <span class="menu-text">til</span></a>
   </li>  
 </ul>
@@ -140,106 +171,45 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
 <!-- main -->
-<div class="quarto-about-solana column-body">
-  <div class="about-entity">
-    <div class="entity-contents">
-      <header id="title-block-header" class="quarto-title-block default">
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">about me</h1>
+<h1 class="title">today i learned</h1>
 </div>
+
+
+
 <div class="quarto-title-meta">
+
+    
+  
+    
   </div>
-</header> <div class="about-links">
-  <a href="https://twitter.com/jimmie_munyi" class="about-link">
-    <i class="bi bi-twitter"></i>
-     <span class="about-link-text">Twitter</span>
-  </a>
-  <a href="https://linkedin.com/in/jimmie-munyi" class="about-link">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn</span>
-  </a>
-  <a href="https://github.com/jimmiemunyi" class="about-link">
-    <i class="bi bi-github"></i>
-     <span class="about-link-text">Github</span>
-  </a>
-</div>
-      <div class="about-contents"><main class="content" id="quarto-document-content">
-<p>I am a software engineer from Kenya. My major interests revolve around AI and deep learning.</p>
-<p>I code mostly in Python, but can <em>very hackily</em> use JavaScript too when need be. I am also learning Rust and adding it to my arsenal.</p>
-<p>I currently work in the AI team at <a href="https://www.tambuahealth.com/">Tambua Health</a>.</p>
-<section id="contact-me" class="level2">
-<h2 data-anchor-id="contact-me">contact me</h2>
-<p>You can contact me on social media with the links provided above or email me at my <a href="mailto:jimmiemunyi@gmail.com">personal email</a> or contact me on Signal or WhatsApp if you already have my number.</p>
-<p>I am most likely to respond on Twitter, either DM or @ me on a tweet.</p>
-</section>
-<section id="books" class="level2">
-<h2 data-anchor-id="books">books</h2>
-<p>I try to keep a list of books I have read and their reviews on my <a href="https://www.goodreads.com/user/show/106271494-jimmie-munyi">goodreads profile</a>. Both fiction and non-fiction.</p>
-<p>Here is a non-exhaustive list of books that I have read that have been the most memorable for me:</p>
-<ul>
-<li>Introduction to Psychology - James Kalat</li>
-<li>The Demon-Haunted World: Science as a Candle in the Dark.</li>
-<li>Surely you are joking, Mr.&nbsp;Feynman!</li>
-<li>Thinking, Fast and Slow.</li>
-<li>Deep Learning for Coders.</li>
-<li>Neural Networks from Scratch - <a href="https://nnfs.io/">link</a></li>
-<li>Deschooling Society</li>
-<li>The Teenage Liberation Handbook: How to Quit School and Get a Real Life and Education.</li>
-</ul>
-</section>
-<section id="blogs-i-enjoy" class="level2">
-<h2 data-anchor-id="blogs-i-enjoy">blogs I enjoy</h2>
-<p>I update this regularly. For now, these are the blogs I follow and enjoy:</p>
-<ul>
-<li><a href="https://geohot.github.io/blog/">George Hotz</a></li>
-<li><a href="http://paulgraham.com/articles.html">Paul Graham</a></li>
-<li><a href="https://karpathy.ai/">Andrej Karpathy</a></li>
-<li><a href="https://www.furidamu.org/">Julian Schrittwieser</a></li>
-<li><a href="https://www.fast.ai/">fast.ai</a></li>
-<li><a href="https://balajis.com/">Balaji Srinivasan</a></li>
-<li><a href="https://vickiboykis.com/">Vicki Boykis</a></li>
-<li><a href="https://calmcode.io/">Calm Code by Vincent D. Warmerdam</a></li>
-<li><a href="https://koaning.io/">Vincent D. Warmerdam (Personal Blog)</a></li>
-<li><a href="https://www.shreya-shankar.com/">Shreya Shankar</a></li>
-<li><a href="https://simonwillison.net/">Simon Willison</a></li>
-<li><a href="https://enidkathambi.com/personal-finance/">Enid Kathambi (Kenyan Finance blog)</a></li>
-</ul>
-</section>
-<section id="notes" class="level2">
-<h2 data-anchor-id="notes">notes</h2>
-<p>I heavily take notes whenever I can, these can be from podcasts, youtube videos I watch, talks I attend, online MOOCs etc. For taking notes, I use Obsidian + a private GitHub repo backup across my machines. I previously used Notion which I would recommend too</p>
-<p>I share some of them here on my website, mostly so that I can have a central place where I can scheme through them from time to time. You can find the public ones here: <a href="./notes.html">notes</a></p>
-</section>
-<section id="music" class="level2">
-<h2 data-anchor-id="music">music</h2>
-<p>I love listening to music. I always have my headphones on me everywhere I go.</p>
-<p>I enjoy chill and underground rap and hip-hop music mostly, but I listen to any good music that gets my head bopping, across all genres.</p>
-<p>You can connect with me on Spotify (I don’t use it that often these days) and on Apple Music, both <span class="citation" data-cites="jimmiemunyi">@jimmiemunyi</span> and get to listen to my playlists and share yours (please!)</p>
-</section>
-<section id="meditation" class="level2">
-<h2 data-anchor-id="meditation">meditation</h2>
-<p>I practive <a href="https://www.dhamma.org/en-US/index">Vipassana Meditaion</a>. It keeps me in touch with myself. My friends tell me that they too have practices that keep them in touch with themselves: for some its exercising and the gym, others pray to some deity, others love taking walks etc. I think everyone should have their way of keeping sane and keeping in touch with themselves, as long as its:</p>
-<ul>
-<li>universal. Can be practiced with anyone from any background.</li>
-<li>involves no dogma.</li>
-<li>simple to understand. Doesn’t have strange practices that you ‘should just believe in’.</li>
-</ul>
-<p>Vipassana ticks all the above boxes for me and hence I practice it. I have also experienced positive results from it. But I do not claim this to be the only way. To each his own.</p>
+  
+
+</header>
+
+<p>Short posts based on what I learned.</p>
 
 
-</section>
-</main></div>
-    </div>
-    <img src="jimmie-new.jpg" class="about-image
-  rectangle " style="width: 10em;">
-  </div>
+
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="list grid quarto-listing-cols-3">
+
 </div>
- <!-- /main -->
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -260,6 +230,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
   const clipboard = new window.ClipboardJS('.code-copy-button', {
     target: function(trigger) {
       return trigger.previousElementSibling;

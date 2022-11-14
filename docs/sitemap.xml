@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jimmiemunyi.dev/notes.html</loc>
-    <lastmod>2022-11-10T18:47:13.497Z</lastmod>
+    <lastmod>2022-11-14T11:07:39.734Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/til.html</loc>
+    <lastmod>2022-11-14T11:07:40.078Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-classification.html</loc>
-    <lastmod>2022-11-10T18:47:14.321Z</lastmod>
+    <lastmod>2022-11-14T11:07:41.186Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-inference.html</loc>
-    <lastmod>2022-11-10T18:47:14.717Z</lastmod>
+    <lastmod>2022-11-14T11:07:41.782Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/pneumonia-classification/handling-imbalance-medical-datasets.html</loc>
-    <lastmod>2022-11-10T18:47:15.149Z</lastmod>
+    <lastmod>2022-11-14T11:07:42.386Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-beginner/transfer-learning.html</loc>
-    <lastmod>2022-11-10T18:47:15.621Z</lastmod>
+    <lastmod>2022-11-14T11:07:43.038Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-intermediate/making-transfer-learning-work.html</loc>
-    <lastmod>2022-11-10T18:49:16.288Z</lastmod>
+    <lastmod>2022-11-14T11:10:16.742Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/thoughts/not-into-computers/not-into-computers.html</loc>
-    <lastmod>2022-11-10T18:49:17.116Z</lastmod>
+    <lastmod>2022-11-14T11:10:17.610Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/learning-from-sound/respiratory-sounds.html</loc>
-    <lastmod>2022-11-10T18:49:18.764Z</lastmod>
+    <lastmod>2022-11-14T11:10:19.734Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/book-recommendation/similar-books.html</loc>
-    <lastmod>2022-11-10T18:49:19.440Z</lastmod>
+    <lastmod>2022-11-14T11:10:20.618Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/resnet-paper/resnet-implementation.html</loc>
-    <lastmod>2022-11-10T18:49:31.940Z</lastmod>
+    <lastmod>2022-11-14T11:10:35.847Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/about.html</loc>
-    <lastmod>2022-11-10T18:49:32.276Z</lastmod>
+    <lastmod>2022-11-14T11:10:36.227Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/index.html</loc>
-    <lastmod>2022-11-10T18:49:32.700Z</lastmod>
+    <lastmod>2022-11-14T11:10:36.755Z</lastmod>
   </url>
 </urlset>

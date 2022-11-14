@@ -12,3 +12,6 @@ listing:
 page-layout: full
 title-block-banner: false
 ---
+
+Experiments that do not make it to blog posts: <a href="https://github.com/jimmiemunyi/deeplearning-experiments">Deep Learning Experiments</a>
+<hr>

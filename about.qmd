@@ -56,6 +56,12 @@ I update this regularly. For now, these are the blogs I follow and enjoy:
 - <a href="https://karpathy.ai/">Andrej Karpathy</a>
 - <a href="https://www.furidamu.org/">Julian Schrittwieser</a>
 - <a href="https://www.fast.ai/">fast.ai</a>
+- <a href="https://balajis.com/">Balaji Srinivasan</a>
+- <a href="https://vickiboykis.com/">Vicki Boykis</a>
+- <a href="https://calmcode.io/">Calm Code by Vincent D. Warmerdam</a>
+- <a href="https://koaning.io/">Vincent D. Warmerdam (Personal Blog)</a>
+- <a href="https://www.shreya-shankar.com/">Shreya Shankar</a>
+- <a href="https://simonwillison.net/">Simon Willison</a>
 - <a href="https://enidkathambi.com/personal-finance/">Enid Kathambi (Kenyan Finance blog)</a>
 
 ## notes

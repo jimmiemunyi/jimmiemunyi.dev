@@ -14,6 +14,8 @@ website:
         text: about
       - href: notes.qmd
         text: notes
+      - href: til.qmd
+        text: til
     right:
       - icon: github
         href: https://github.com/jimmiemunyi
