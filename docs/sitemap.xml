@@ -2,54 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jimmiemunyi.dev/notes.html</loc>
-    <lastmod>2022-11-14T16:20:59.183Z</lastmod>
+    <lastmod>2022-11-16T15:54:44.193Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/til.html</loc>
-    <lastmod>2022-11-14T16:20:59.603Z</lastmod>
+    <lastmod>2022-11-16T15:54:44.493Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-classification.html</loc>
-    <lastmod>2022-11-14T16:21:00.607Z</lastmod>
+    <lastmod>2022-11-16T15:54:45.585Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-inference.html</loc>
-    <lastmod>2022-11-14T16:21:01.227Z</lastmod>
+    <lastmod>2022-11-16T15:54:46.277Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/pneumonia-classification/handling-imbalance-medical-datasets.html</loc>
-    <lastmod>2022-11-14T16:21:01.735Z</lastmod>
+    <lastmod>2022-11-16T15:54:46.881Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-beginner/transfer-learning.html</loc>
-    <lastmod>2022-11-14T16:21:02.443Z</lastmod>
+    <lastmod>2022-11-16T15:54:47.449Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-intermediate/making-transfer-learning-work.html</loc>
-    <lastmod>2022-11-14T16:22:57.331Z</lastmod>
+    <lastmod>2022-11-16T15:56:48.136Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/thoughts/not-into-computers/not-into-computers.html</loc>
-    <lastmod>2022-11-14T16:22:57.987Z</lastmod>
+    <lastmod>2022-11-16T15:56:48.816Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/learning-from-sound/respiratory-sounds.html</loc>
-    <lastmod>2022-11-14T16:22:59.535Z</lastmod>
+    <lastmod>2022-11-16T15:56:50.412Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/book-recommendation/similar-books.html</loc>
-    <lastmod>2022-11-14T16:23:00.219Z</lastmod>
+    <lastmod>2022-11-16T15:56:51.192Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/resnet-paper/resnet-implementation.html</loc>
-    <lastmod>2022-11-14T16:23:12.463Z</lastmod>
+    <lastmod>2022-11-16T15:57:03.792Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/about.html</loc>
-    <lastmod>2022-11-14T16:23:12.763Z</lastmod>
+    <lastmod>2022-11-16T15:57:04.084Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/index.html</loc>
-    <lastmod>2022-11-14T16:23:13.163Z</lastmod>
+    <lastmod>2022-11-16T15:57:04.484Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/awaken-meaning-crisis/ep2.html</loc>
+    <lastmod>2022-11-16T15:57:05.152Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/awaken-meaning-crisis/ep3.html</loc>
+    <lastmod>2022-11-16T15:57:05.424Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/reliance-metrics-paper.html</loc>
+    <lastmod>2022-11-16T15:57:05.748Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/anthropologist-love-questions.html</loc>
+    <lastmod>2022-11-16T15:57:06.088Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/new-deep-learning-project.html</loc>
+    <lastmod>2022-11-16T15:57:06.416Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/mathematicians-lament.html</loc>
+    <lastmod>2022-11-16T15:57:06.697Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/notes/coauthor.html</loc>
+    <lastmod>2022-11-16T15:57:07.017Z</lastmod>
   </url>
 </urlset>

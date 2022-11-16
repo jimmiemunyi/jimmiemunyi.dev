@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jimmie Munyi">
+<meta name="dcterms.date" content="2022-08-31">
+<meta name="description" content="Tips from Matthias Niessner’s Thread on Twitter.">
 
-<title>Jimmie Munyi - Today I Learned</title>
+<title>Jimmie Munyi - How to start a Deep Learning Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +26,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -61,35 +62,6 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-0HHNW4RVEE"></script>
 
 <script type="text/javascript">
@@ -100,16 +72,17 @@ gtag('js', new Date());
 gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Jimmie Munyi - Today I Learned">
-<meta property="og:description" content="Short posts based on what I learned.">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Jimmie Munyi - How to start a Deep Learning Project">
+<meta property="og:description" content="Tips from Matthias Niessner's Thread on Twitter.">
+<meta property="og:image" content="https://jimmiemunyi.dev/notes/tech.jpg">
 <meta property="og:site-name" content="Jimmie Munyi">
-<meta name="twitter:title" content="Jimmie Munyi - Today I Learned">
-<meta name="twitter:description" content="Short posts based on what I learned.">
+<meta name="twitter:title" content="Jimmie Munyi - How to start a Deep Learning Project">
+<meta name="twitter:description" content="Tips from Matthias Niessner's Thread on Twitter.">
+<meta name="twitter:image" content="https://jimmiemunyi.dev/notes/tech.jpg">
 <meta name="twitter:creator" content="@jimmie_munyi">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -119,7 +92,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Jimmie Munyi</span>
     </a>
   </div>
@@ -129,15 +102,15 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./notes.html">
+    <a class="nav-link" href="../notes.html">
  <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./til.html" aria-current="page">
+    <a class="nav-link" href="../til.html">
  <span class="menu-text">TIL</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
+    <a class="nav-link" href="../about.html">
  <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -153,7 +126,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"><i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../index.xml"><i class="bi bi-rss" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -171,25 +144,62 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#start-simple" id="toc-start-simple" class="nav-link active" data-scroll-target="#start-simple">Start Simple</a></li>
+  <li><a href="#no-fancy-features" id="toc-no-fancy-features" class="nav-link" data-scroll-target="#no-fancy-features">No Fancy Features</a></li>
+  <li><a href="#set-up-trainval" id="toc-set-up-trainval" class="nav-link" data-scroll-target="#set-up-trainval">Set up train/val</a></li>
+  <li><a href="#overfit-to-a-single-train-sample-first" id="toc-overfit-to-a-single-train-sample-first" class="nav-link" data-scroll-target="#overfit-to-a-single-train-sample-first">Overfit to a single train sample first</a></li>
+  <li><a href="#overfit-to-5-10-samples" id="toc-overfit-to-5-10-samples" class="nav-link" data-scroll-target="#overfit-to-5-10-samples">Overfit to 5 – 10 samples</a></li>
+  <li><a href="#throw-more-data-at-the-problem" id="toc-throw-more-data-at-the-problem" class="nav-link" data-scroll-target="#throw-more-data-at-the-problem">Throw more data at the problem</a></li>
+  <li><a href="#training-speed" id="toc-training-speed" class="nav-link" data-scroll-target="#training-speed">Training Speed</a></li>
+  <li><a href="#improving-the-overall-performance" id="toc-improving-the-overall-performance" class="nav-link" data-scroll-target="#improving-the-overall-performance">Improving the overall performance</a></li>
+  <li><a href="#many-ablations-at-the-same-time" id="toc-many-ablations-at-the-same-time" class="nav-link" data-scroll-target="#many-ablations-at-the-same-time">Many ablations at the same time</a></li>
+  <li><a href="#data-engineering" id="toc-data-engineering" class="nav-link" data-scroll-target="#data-engineering">Data Engineering</a></li>
+  <li><a href="#bigger-architectures" id="toc-bigger-architectures" class="nav-link" data-scroll-target="#bigger-architectures">Bigger Architectures</a></li>
+  <li><a href="#final-advice" id="toc-final-advice" class="nav-link" data-scroll-target="#final-advice">Final Advice</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Today I Learned</h1>
-</div>
+<h1 class="title">How to start a Deep Learning Project</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">tech-notes</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Tips from Matthias Niessner’s Thread on Twitter.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jimmie Munyi </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 31, 2022</p>
+    </div>
+  </div>
   
     
   </div>
@@ -197,19 +207,60 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 </header>
 
-<p>Short posts based on what I learned.</p>
+<p>Link to the tweet - <a href="https://twitter.com/MattNiessner/status/1441027241870118913">Thread</a>.</p>
+<p>I wrote this down as a checklist that I use when I start my deep learning projects.</p>
+<section id="start-simple" class="level1">
+<h1>Start Simple</h1>
+<p>General advice: start simple → use a small architecture (less than 1 mio params). In vision, ENet or a crippled ResNet-18 (only the first blocks) is a good choice. Common mistake: train model with 100mio+ params for 3 weeks only to notice that the data loader is broken.</p>
+</section>
+<section id="no-fancy-features" class="level1">
+<h1>No Fancy Features</h1>
+<p>Disable dropout, batch norm, lr-decay.</p>
+</section>
+<section id="set-up-trainval" class="level1">
+<h1>Set up train/val</h1>
+<p>Set up your training and validation losses using Weights and Biases or Tensorboard. Make sure you log loss for every batch and not just epochs.</p>
+</section>
+<section id="overfit-to-a-single-train-sample-first" class="level1">
+<h1>Overfit to a single train sample first</h1>
+<p>This debugs your outputs, which you expect the network to fully memorize.</p>
+</section>
+<section id="overfit-to-5-10-samples" class="level1">
+<h1>Overfit to 5 – 10 samples</h1>
+<p>Now the network needs to predict different outputs depending on the input.</p>
+</section>
+<section id="throw-more-data-at-the-problem" class="level1">
+<h1>Throw more data at the problem</h1>
+<p>With the previous steps, you have verified that data loading and whether basic optimization works. Now it’s time to throw more data at the problem. The goal is to generalize for the first time – if your val loss goes down even just slightly, you have learned something.</p>
+</section>
+<section id="training-speed" class="level1">
+<h1>Training Speed</h1>
+<p>It is critical that your setup facilitates fast turnaround times for debugging. Make sure you understand where the bottleneck lies (data loading vs backprop)</p>
+</section>
+<section id="improving-the-overall-performance" class="level1">
+<h1>Improving the overall performance</h1>
+<p>Now that you have the basic setup running, it is finally time to improve the overall performance. Log the metrics on the val set on top of the loss logging you are already doing. Try out features that we had initially disabled like weight decay, dropout, batchnorm and other improvements that you could use.</p>
+</section>
+<section id="many-ablations-at-the-same-time" class="level1">
+<h1>Many ablations at the same time</h1>
+<p>After a few iterations, loss curves and metrics will tell you whether an experiment has promise or not. Kill experiments that do not show promise and start new ones with different hyperparameters.</p>
+</section>
+<section id="data-engineering" class="level1">
+<h1>Data Engineering</h1>
+<p>Most times, performance is limited due to the data. Try weight balancing between classes and augmentations. Never augment the val set as it would make it impossible to compare.</p>
+</section>
+<section id="bigger-architectures" class="level1">
+<h1>Bigger Architectures</h1>
+<p>Now it is time to try out bigger architectures. Generally, each time you change a model, you will repeat step 8 to 10 to see if you can get some improvements on the new architecture.</p>
+</section>
+<section id="final-advice" class="level1">
+<h1>Final Advice</h1>
+<p>All papers in AI/ML are written to sell a specific point → They are rarely proposing an easy-to-implement method. Often, it’s much better to use the simple baseline that many SOTA papers claim to beat.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

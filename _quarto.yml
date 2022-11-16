@@ -3,19 +3,19 @@ project:
   output-dir: docs
 
 website:
-  title: "jimmie munyi"
+  title: "Jimmie Munyi"
   site-url: https://jimmiemunyi.dev/
-  description: "thoughts"
+  description: "Thoughts"
   favicon: favicon.png
   google-analytics: G-0HHNW4RVEE
   navbar:
     left:
-      - href: about.qmd
-        text: about
       - href: notes.qmd
-        text: notes
+        text: Notes
       - href: til.qmd
-        text: til
+        text: TIL
+      - href: about.qmd
+        text: About
     right:
       - icon: github
         href: https://github.com/jimmiemunyi

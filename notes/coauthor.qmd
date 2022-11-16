@@ -1,0 +1,27 @@
+---
+title: Designing a Human-AI Collaborative Writing Dataset for Exploring Language Model Capabilities
+description: Research Paper
+author: "Jimmie Munyi"
+date: 'Sep 6, 2022'
+categories: [research-paper]
+toc: false
+highlight-style: pygments
+format: html
+image: research.jpg
+---
+Link to the paper - [arxiv](https://arxiv.org/abs/2201.06796)
+
+- Main concern is examining Language Models generative capabilities; and more specifically, their capabilities on collaborative writing with human authors.
+- Both creative and argumentative writing.
+- Some questions:
+	- Can GPT-3 contribute new ideas, or does it merely expand on existing ones?
+	- Does this ideation capability differ in the context of fiction vs persuasive arguments?
+	- To what extent does this capability fluctuate when it is decoding parameters change?
+- Tests both:
+	- Language capabilities - fluent text
+	- Collaboration capabilities - working jointly with authors
+- Also shows need of curating large interaction datasets:
+	- covers diverse contexts
+	- support subjective interpretations
+	- capture the process, not just the result
+	- allow for possible reuse and expansions.

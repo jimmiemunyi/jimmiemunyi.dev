@@ -1,10 +1,10 @@
 ---
-title: "there's no such thing as not a computer person"
+title: "There's no such thing as not a computer person"
 description: Debunking the myth.
 author: "Jimmie Munyi"
 date: 'Nov 10, 2022'
 categories: [thoughts]
-toc: false
+toc: true
 highlight-style: pygments
 format: html
 ---
@@ -15,7 +15,7 @@ My coding path has always left me inspired to talk others into learning to code 
 
 “*I’m not that into computers anyway*”, is the response I get most, which is okay, I understand. In this post, I try and respond to that, from my point of view.
 
-## relating coding to a spoken language
+## Relating coding to a spoken language
 
 Let us start by relating coding to a commonly spoken language globally like English, although this analogy extends to any other language of your choice. This sounds weird at first but we will get to that. 
 
@@ -23,10 +23,10 @@ Most people learn English (again, or any other spoken Language), irrespective of
 
 You pick up the vocabulary relating to your area of interest and share your ideas using the specific vocabulary. For example, a doctor uses words such as *cardiac arrest* and *pulmonary artery* to speak to his patients and workmates. A teacher uses vocabulary that makes sense to his students. The same applies to lawyers or secretaries. We are all taking the general English Language and specifying how to use it in our particular domain.
 
-## study of a language as a specific domain
+## Study of a language as a specific domain
 At the same time, some people study the English Language itself as a domain, and they are responsible for its advancement and development and make sure we use it correctly. They are concerned with creating and updating tools like dictionaries and English wikis and tutorials.
 
-## how it relates to programming
+## How it relates to programming
 
 How does this relate to programming? Well, computer code is just a language by itself, a language for computers.
 
@@ -42,7 +42,7 @@ Anyone can (and should) learn how to code, because only you know how to best imp
 
 What I am trying to convey is, you don’t have to switch careers or ‘be that into computers’ to learn how to code. You can learn how to code and solve problems in your domain and at the same time, keep your career.
 
-## learning to code
+## Learning to code
 
 I would be lying if I told you that programming was a breeze. It has its challenges. You have to pick a language according to what you eventually want to achieve and learn its syntax and how to express ideas with it. For example, if you want to develop mobile applications, you are better off learning Kotlin than Python. On a similar note, if you want to do machine learning, then Python is currently the best language to learn.
 

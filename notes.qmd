@@ -1,5 +1,5 @@
 ---
-title: "notes"
+title: "Notes"
 listing:
   contents: notes
   sort: "date desc"
@@ -11,4 +11,4 @@ page-layout: full
 title-block-banner: false
 ---
 
-my notes from podcasts, YouTube videos, talks, online MOOCs, etc.
+My notes from podcasts, YouTube videos, talks, online MOOCs, Tweets, etc.

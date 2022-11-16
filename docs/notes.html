@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>jimmie munyi - notes</title>
+<title>Jimmie Munyi - Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,9 +71,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -103,11 +103,11 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="jimmie munyi - notes">
-<meta property="og:description" content="my notes from podcasts, YouTube videos, talks, online MOOCs, etc.">
-<meta property="og:site-name" content="jimmie munyi">
-<meta name="twitter:title" content="jimmie munyi - notes">
-<meta name="twitter:description" content="my notes from podcasts, YouTube videos, talks, online MOOCs, etc.">
+<meta property="og:title" content="Jimmie Munyi - Notes">
+<meta property="og:description" content="My notes from podcasts, YouTube videos, talks, online MOOCs, Tweets, etc.">
+<meta property="og:site-name" content="Jimmie Munyi">
+<meta name="twitter:title" content="Jimmie Munyi - Notes">
+<meta name="twitter:description" content="My notes from podcasts, YouTube videos, talks, online MOOCs, Tweets, etc.">
 <meta name="twitter:creator" content="@jimmie_munyi">
 <meta name="twitter:card" content="summary">
 </head>
@@ -120,7 +120,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">jimmie munyi</span>
+    <span class="navbar-title">Jimmie Munyi</span>
     </a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -129,16 +129,16 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
- <span class="menu-text">about</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link active" href="./notes.html" aria-current="page">
- <span class="menu-text">notes</span></a>
+ <span class="menu-text">Notes</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./til.html">
- <span class="menu-text">til</span></a>
+ <span class="menu-text">TIL</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -176,13 +176,13 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="awaken-meaning-crisis">awaken-meaning-crisis <span class="quarto-category-count">(2)</span></div><div class="category" data-category="essay">essay <span class="quarto-category-count">(1)</span></div><div class="category" data-category="research-paper">research-paper <span class="quarto-category-count">(2)</span></div><div class="category" data-category="tech-notes">tech-notes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="youtube-video">youtube-video <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">notes</h1>
+<h1 class="title">Notes</h1>
 </div>
 
 
@@ -197,14 +197,223 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 </header>
 
-<p>my notes from podcasts, YouTube videos, talks, online MOOCs, etc.</p>
+<p>My notes from podcasts, YouTube videos, talks, online MOOCs, Tweets, etc.</p>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-
+<div class="g-col-1" data-index="0" data-categories="awaken-meaning-crisis" data-listing-date-sort="1664053200000" data-listing-file-modified-sort="1668610936259" data-listing-reading-time-sort="0.95">
+<a href="./notes/awaken-meaning-crisis/ep3.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="https://i.ytimg.com/vi/C1AaqD8t3pk/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&amp;rs=AOn4CLA3iJwEV4ZjDh8qoEWhoPHtZ_zT3Q" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Awaken from the Meaning Crisis Ep3.
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('awaken-meaning-crisis'); return false;">
+awaken-meaning-crisis
+</div>
+</div>
+<div class="card-text listing-description">
+Continuous cosmos and the modern world grammar
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Sep 25, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="awaken-meaning-crisis" data-listing-date-sort="1663966800000" data-listing-file-modified-sort="1668610137193" data-listing-reading-time-sort="2.285">
+<a href="./notes/awaken-meaning-crisis/ep2.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="https://i.ytimg.com/vi/aF9HeXg65AE/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&amp;rs=AOn4CLD9Gq0aCzSBAWm_ddRVILj-kB_vbQ" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Awaken from the Meaning Crisis Ep2.
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('awaken-meaning-crisis'); return false;">
+awaken-meaning-crisis
+</div>
+</div>
+<div class="card-text listing-description">
+Flow, Metaphor and the Axial Revolution
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Sep 24, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="youtube-video" data-listing-date-sort="1663016400000" data-listing-file-modified-sort="1668611995315" data-listing-reading-time-sort="0.02">
+<a href="./notes/anthropologist-love-questions.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="https://i.ytimg.com/an_webp/6DYgImG1CKo/mqdefault_6s.webp?du=3000&amp;sqp=COi605sG&amp;rs=AOn4CLDRQOElzkvzkUAUZpWTGZDEwIO_kw" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Biological Anthropologist Answers Love Questions from Twitter
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('youtube-video'); return false;">
+youtube-video
+</div>
+</div>
+<div class="card-text listing-description">
+YouTube video by Dr.&nbsp;Helen Fisher
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Sep 13, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="essay" data-listing-date-sort="1663016400000" data-listing-file-modified-sort="1668611516198" data-listing-reading-time-sort="1.04">
+<a href="./notes/mathematicians-lament.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./notes/notes.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+A Mathematician’s Lament
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('essay'); return false;">
+essay
+</div>
+</div>
+<div class="card-text listing-description">
+Essay by Paul Lockhart
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Sep 13, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="research-paper" data-listing-date-sort="1662411600000" data-listing-file-modified-sort="1668612389296" data-listing-reading-time-sort="0.56">
+<a href="./notes/coauthor.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./notes/research.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Designing a Human-AI Collaborative Writing Dataset for Exploring Language Model Capabilities
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('research-paper'); return false;">
+research-paper
+</div>
+</div>
+<div class="card-text listing-description">
+Research Paper
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Sep 6, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="tech-notes" data-listing-date-sort="1661893200000" data-listing-file-modified-sort="1668613057448" data-listing-reading-time-sort="2.07">
+<a href="./notes/new-deep-learning-project.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./notes/tech.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+How to start a Deep Learning Project
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('tech-notes'); return false;">
+tech-notes
+</div>
+</div>
+<div class="card-text listing-description">
+Tips from Matthias Niessner’s Thread on Twitter.
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Aug 31, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="research-paper" data-listing-date-sort="1659819600000" data-listing-file-modified-sort="1668612482014" data-listing-reading-time-sort="0.35">
+<a href="./notes/reliance-metrics-paper.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img src="./notes/research.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Reliance on Metrics is a Fundamental Challenge for AI
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('research-paper'); return false;">
+research-paper
+</div>
+</div>
+<div class="card-text listing-description">
+Research Paper
+</div>
+<div class="card-attribution card-text-small justify">
+<div class="listing-author">
+Jimmie Munyi
+</div>
+<div class="listing-date">
+Aug 7, 2022
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items

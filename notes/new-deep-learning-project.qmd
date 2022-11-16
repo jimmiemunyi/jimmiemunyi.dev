@@ -1,0 +1,63 @@
+---
+title: How to start a Deep Learning Project
+description: Tips from Matthias Niessner's Thread on Twitter.
+author: "Jimmie Munyi"
+date: 'Aug 31, 2022'
+categories: [tech-notes]
+toc: true
+highlight-style: pygments
+format: html
+image: tech.jpg
+---
+
+Link to the tweet - [Thread](https://twitter.com/MattNiessner/status/1441027241870118913).
+
+I wrote this down as a checklist that I use when I start my deep learning projects.
+
+# Start Simple
+
+General advice: start simple → use a small architecture (less than 1 mio params). In vision, ENet or a crippled ResNet-18 (only the first blocks) is a good choice. Common mistake: train model with 100mio+ params for 3 weeks only to notice that the data loader is broken.
+
+# No Fancy Features
+
+Disable dropout, batch norm, lr-decay.
+
+# Set up train/val
+
+Set up your training and validation losses using Weights and Biases or Tensorboard. Make sure you log loss for every batch and not just epochs.
+
+# Overfit to a single train sample first
+
+This debugs your outputs, which you expect the network to fully memorize.
+
+# Overfit to 5 – 10 samples
+
+Now the network needs to predict different outputs depending on the input. 
+
+# Throw more data at the problem
+
+With the previous steps, you have verified that data loading and whether basic optimization works.  Now it's time to throw more data at the problem. The goal is to generalize for the first time – if your val loss goes down even just slightly, you have learned something.
+
+# Training Speed
+
+It is critical that your setup facilitates fast turnaround times for debugging. Make sure you understand where the bottleneck lies (data loading vs backprop)
+
+# Improving the overall performance
+
+Now that you have the basic setup running, it is finally time to improve the overall performance. Log the metrics on the val set on top of the loss logging you are already doing. Try out features that we had initially disabled like weight decay, dropout, batchnorm and other improvements that you could use.
+
+# Many ablations at the same time
+
+After a few iterations, loss curves and metrics will tell you whether an experiment has promise or not. Kill experiments that do not show promise and start new ones with different hyperparameters.
+
+# Data Engineering
+
+Most times, performance is limited due to the data. Try weight balancing between classes and augmentations. Never augment the val set as it would make it impossible to compare.
+
+# Bigger Architectures
+
+Now it is time to try out bigger architectures. Generally, each time you change a model, you will repeat step 8 to 10 to see if you can get some improvements on the new architecture.
+
+# Final Advice
+
+All papers in AI/ML are written to sell a specific point → They are rarely proposing an easy-to-implement method. Often, it's much better to use the simple baseline that many SOTA papers claim to beat.

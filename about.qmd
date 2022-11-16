@@ -1,5 +1,5 @@
 ---
-title: "about me"
+title: "About Me"
 image: jimmie-new.jpg
 about:
   template: solana
@@ -25,14 +25,14 @@ I code mostly in Python, but can *very hackily* use JavaScript too when need be.
 I currently work in the AI team at [Tambua Health](https://www.tambuahealth.com/).
 
 
-## contact me
+## Contact Me
 
 You can contact me on social media with the links provided above or email me at my <a href="mailto:jimmiemunyi@gmail.com">personal email</a>
 or contact me on Signal or WhatsApp if you already have my number.
 
 I am most likely to respond on Twitter, either DM or @ me on a tweet.
 
-## books
+## Books
 
 I try to keep a list of books I have read and their reviews on my <a href="https://www.goodreads.com/user/show/106271494-jimmie-munyi">goodreads profile</a>. Both fiction and non-fiction. 
 
@@ -48,7 +48,7 @@ Here is a non-exhaustive list of books that I have read that have been the most 
 - Deschooling Society
 - The Teenage Liberation Handbook: How to Quit School and Get a Real Life and Education.
 
-## blogs I enjoy
+## Blogs I Enjoy
 
 I update this regularly. For now, these are the blogs I follow and enjoy:
 
@@ -65,13 +65,17 @@ I update this regularly. For now, these are the blogs I follow and enjoy:
 - <a href="https://simonwillison.net/">Simon Willison</a>
 - <a href="https://enidkathambi.com/personal-finance/">Enid Kathambi (Kenyan Finance blog)</a>
 
-## notes
+## Notes
 
 I heavily take notes whenever I can, these can be from podcasts, youtube videos I watch, talks I attend, online MOOCs etc. For taking notes, I use Obsidian + a private GitHub repo backup across my machines. I previously used Notion which I would recommend too
 
 I share some of them here on my website, mostly so that I can have a central place where I can scheme through them from time to time. You can find the public ones here: <a href="notes.qmd">notes</a>
 
-## music
+## Today I Learned
+
+I keep a record of things I learned throughout my day. Check them out here: <a href="til.qmd">TIL</a>
+
+## Music
 
 I love listening to music. I always have my headphones on me everywhere I go.
 
@@ -80,7 +84,7 @@ Generally, I listen to any good music that gets my body moving, across all genre
 
 You can connect with me on Spotify (I don't use it that often these days) and on Apple Music, both @jimmiemunyi and get to listen to my playlists and share yours.
 
-## meditation
+## Meditation
 
 I practive <a href="https://www.dhamma.org/en-US/index">Vipassana Meditaion</a>. It keeps me in touch with myself. My friends tell me that they too have practices that keep them in touch with themselves: for some its exercising and the gym, others pray to some deity, others love taking walks etc. I think everyone should have their way of keeping sane and keeping in touch with themselves, as long as its:
 

@@ -1,0 +1,14 @@
+---
+title: Biological Anthropologist Answers Love Questions from Twitter
+description: YouTube video by Dr. Helen Fisher
+author: "Jimmie Munyi"
+date: 'Sep 13, 2022'
+categories: [youtube-video]
+toc: false
+highlight-style: pygments
+format: html
+image: https://i.ytimg.com/an_webp/6DYgImG1CKo/mqdefault_6s.webp?du=3000&sqp=COi605sG&rs=AOn4CLDRQOElzkvzkUAUZpWTGZDEwIO_kw
+---
+
+
+{{< video https://youtu.be/6DYgImG1CKo >}}

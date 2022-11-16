@@ -1,0 +1,25 @@
+---
+title: A Mathematician's Lament
+description: Essay by Paul Lockhart
+author: "Jimmie Munyi"
+date: 'Sep 13, 2022'
+categories: [essay]
+toc: false
+highlight-style: pygments
+format: html
+image: notes.jpg
+---
+
+The essay can be found here: [A Mathematician's Lament](https://www.maa.org/external_archive/devlin/LockhartsLament.pdf)
+
+ This essay critics the current education system by comparing some hypotheticals that look absurd; hence leading the reader to relate the examples to the currently accepted norm. 
+ 
+ An example of such hypothetical is learning music. Imaging a music curriculum where for the first ten years, you don't actually play any musical instruments; instead, you learn all about music theory and the history of the instruments. A person learning music this way will get bored way long before they actually get to do what they love, play music.
+
+But this is exactly how Mathematics (and most other subjects) is taught in our current system. And Lockhart argues that this is what makes people get bored with the subject early on in life. “Mathematics is the purest of the arts”.
+
+“Many a graduate student has come to grief when they discover, after a decade of being told they were *'good at math'* that in fact they have just no real mathematical talent and are just good at following directions.”
+
+Learning in context in the best. We should always strive to learn something in context instead of in an isolated sense.
+
+The essay goes on and gives specific examples in the mathematical context. 

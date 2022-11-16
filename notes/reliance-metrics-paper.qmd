@@ -1,0 +1,23 @@
+---
+title: Reliance on Metrics is a Fundamental Challenge for AI
+description: Research Paper
+author: "Jimmie Munyi"
+date: 'Aug 7, 2022'
+categories: [research-paper]
+toc: false
+highlight-style: pygments
+format: html
+image: research.jpg
+---
+Link to the paper - [arxiv](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9122957/)
+
+## Problems
+- We cannot measure the things that matter the most
+- Metrics, can and will, be gamed
+- Metrics overemphasize short-term concerns
+- Many metrics gather data of what we do in highly addictive environments
+
+## Framework for a healthier use of metrics
+- Using a slate of metrics to get a fuller picture.
+- Combine with qualitative accounts
+- Involve a range of stakeholders, including those who will be most impacted
