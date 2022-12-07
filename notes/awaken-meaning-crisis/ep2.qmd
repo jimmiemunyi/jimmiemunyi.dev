@@ -3,7 +3,7 @@ title: Awaken from the Meaning Crisis Ep2.
 description: "Flow, Metaphor and the Axial Revolution"
 author: "Jimmie Munyi"
 date: 'Sep 24, 2022'
-categories: [awaken-meaning-crisis]
+categories: [awaken-meaning-crisis, youtube]
 toc: false
 highlight-style: pygments
 format: html

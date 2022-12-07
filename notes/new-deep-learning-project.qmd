@@ -3,11 +3,11 @@ title: How to start a Deep Learning Project
 description: Tips from Matthias Niessner's Thread on Twitter.
 author: "Jimmie Munyi"
 date: 'Aug 31, 2022'
-categories: [tech-notes]
+categories: [notes]
 toc: true
 highlight-style: pygments
 format: html
-image: tech.jpg
+image: notes.jpg
 ---
 
 Link to the tweet - [Thread](https://twitter.com/MattNiessner/status/1441027241870118913).

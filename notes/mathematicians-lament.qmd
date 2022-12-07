@@ -3,7 +3,7 @@ title: A Mathematician's Lament
 description: Essay by Paul Lockhart
 author: "Jimmie Munyi"
 date: 'Sep 13, 2022'
-categories: [essay]
+categories: [notes]
 toc: false
 highlight-style: pygments
 format: html

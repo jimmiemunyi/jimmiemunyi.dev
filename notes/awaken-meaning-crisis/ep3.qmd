@@ -3,7 +3,7 @@ title: Awaken from the Meaning Crisis Ep3.
 description: "Continuous cosmos and the modern world grammar"
 author: "Jimmie Munyi"
 date: 'Sep 25, 2022'
-categories: [awaken-meaning-crisis]
+categories: [awaken-meaning-crisis, youtube]
 toc: false
 highlight-style: pygments
 format: html
