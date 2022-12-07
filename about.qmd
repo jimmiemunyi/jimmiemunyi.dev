@@ -38,24 +38,38 @@ I try to keep a list of books I have read and their reviews on my <a href="https
 
 Here is a non-exhaustive list of books that I have read that have been the most memorable for me:
 
+### Tech
+
+- Deep Learning for Coders.
+- Neural Networks from Scratch - <a href="https://nnfs.io/">link</a>
+- Effective Python
+
+
+### Non-Fiction
+
+
 - Introduction to Psychology - James Kalat
 - The Demon-Haunted World: Science as a Candle in the Dark.
 - Surely you are joking, Mr. Feynman!
 - How We Know What Isn't So: The Fallibility of Human Reason in Everyday Life.
 - Thinking, Fast and Slow.
-- Deep Learning for Coders.
-- Neural Networks from Scratch - <a href="https://nnfs.io/">link</a>
 - Deschooling Society
 - The Teenage Liberation Handbook: How to Quit School and Get a Real Life and Education.
 
-## Blogs I Enjoy
+## Content I Enjoy
 
-I update this regularly. For now, these are the blogs I follow and enjoy:
+I update this regularly.
+<!-- - <a href=""></a> -->
+
+##### Blogs
 
 - <a href="https://geohot.github.io/blog/">George Hotz</a>
 - <a href="http://paulgraham.com/articles.html">Paul Graham</a>
 - <a href="https://karpathy.ai/">Andrej Karpathy</a>
 - <a href="https://www.furidamu.org/">Julian Schrittwieser</a>
+- <a href="https://lilianweng.github.io/">Lil'Log by Lilian Weng</a>
+- <a href="https://jalammar.github.io/">Jay Alanmar</a>
+- <a href="https://michaelnotebook.com/">Michael's Notebook by Michael Nielsen</a>
 - <a href="https://www.fast.ai/">fast.ai</a>
 - <a href="https://balajis.com/">Balaji Srinivasan</a>
 - <a href="https://vickiboykis.com/">Vicki Boykis</a>
@@ -63,7 +77,37 @@ I update this regularly. For now, these are the blogs I follow and enjoy:
 - <a href="https://koaning.io/">Vincent D. Warmerdam (Personal Blog)</a>
 - <a href="https://www.shreya-shankar.com/">Shreya Shankar</a>
 - <a href="https://simonwillison.net/">Simon Willison</a>
-- <a href="https://enidkathambi.com/personal-finance/">Enid Kathambi (Kenyan Finance blog)</a>
+- <a href="https://enidkathambi.com/personal-finance/">Enid Kathambi</a>
+
+##### Podcasts
+
+Linked to Google Podcasts for convinience reasons:
+
+- <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9sZXhmcmlkbWFuLmNvbS9mZWVkL3BvZGNhc3Qv"> Lex Fridman Podcast</a>
+- <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9hbGxpbmNoYW1hdGhqYXNvbi5saWJzeW4uY29tL3Jzcw">All-In with Chamath, Jason, Sacks & Friedberg</a>
+- <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy5zaW1wbGVjYXN0LmNvbS9rd1djMGxoZg?sa=X&ved=0CAIQ9sEGahgKEwiYreHbvef7AhUAAAAAHQAAAAAQ6AM">Hidden Brain</a>
+- <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9yc3MuYXJ0MTkuY29tL21hc3RlcnMtb2Ytc2NhbGU">Masters of Scale</a>
+
+##### YouTube
+
+Some gold YouTube content.
+(Minus the individual music artist's pages since they would clog up this section.)
+
+- <a href="https://www.youtube.com/@professorskye">Professor Skye's Record Review (Music Analysis)</a>
+- <a href="https://www.youtube.com/@DigitalSreeni">DigitalSreeni (Educator)</a>
+- <a href="https://www.youtube.com/@johnvervaeke">John Vervaeke</a>
+- <a href="https://www.youtube.com/@howardjeremyp">Jeremy Howard (Educator)</a>
+- <a href="https://www.youtube.com/@geohotarchive">george hotz archive (Live Streams)</a>
+- <a href="https://www.youtube.com/@realmartinshkreli">Martin Shkreli (Livestreams and the Investing Course)</a>
+- <a href="https://www.youtube.com/@AladdinPersson">Aladdin Persson (Educator)</a>
+- <a href="https://www.youtube.com/@sentdex">sentdex (Educator)</a>
+- <a href="https://www.youtube.com/@HangingPawns">Hanging Pawns (Chess Education)</a>
+- <a href="https://www.youtube.com/@AndrejKarpathy">Andrej Karpathy (Educator)</a>
+- <a href="https://www.youtube.com/@theschooloflifetv">The School of Life</a>
+- <a href="https://www.youtube.com/@marksaroufim">Mark Saroufim (Educator and Live Streams)</a>
+- <a href="https://www.youtube.com/@mildlyoverfitted">mildlyoverfitted (Educator)</a>
+
+
 
 ## Notes
 
@@ -86,10 +130,13 @@ You can connect with me on Spotify (I don't use it that often these days) and on
 
 ## Meditation
 
-I practive <a href="https://www.dhamma.org/en-US/index">Vipassana Meditaion</a>. It keeps me in touch with myself. My friends tell me that they too have practices that keep them in touch with themselves: for some its exercising and the gym, others pray to some deity, others love taking walks etc. I think everyone should have their way of keeping sane and keeping in touch with themselves, as long as its:
+Meditation is a good way to practice staying in the moment and has it's benefit in our day to day lives. I practive <a href="https://www.dhamma.org/en-US/index">Vipassana Meditaion</a>.
 
-- universal. Can be practiced with anyone from any background.
+My friends often tell me that they too have their own practices that keep them in touch with themselves: be it exercising, the gym, praying to some deity, others love taking walks etc. 
+
+I think everyone should have their preferred way of keeping sane and keeping in touch with themselves, as long as its:
+
+- universal. Can be practiced with anyone from any background. (religion, race, financial status, etc.)
 - involves no dogma.
 - simple to understand. Doesn't have strange practices that you 'should just believe in'.
 
-Vipassana ticks all the above boxes for me and hence I practice it. I have also experienced positive results from it. But I do not claim this to be the only way. To each his own.

@@ -1,7 +1,7 @@
 ---
-title: "Tech Blog"
+title: "Thoughts"
 listing:
-  contents: posts
+  contents: thoughts
   sort: "date desc"
   type: default
   fields: [date, title, description, reading-time]
@@ -13,5 +13,8 @@ page-layout: full
 title-block-banner: false
 ---
 
-Experiments that do not make it to blog posts: <a href="https://github.com/jimmiemunyi/deeplearning-experiments">Deep Learning Experiments</a>
+I decided to seperate my non-tech posts and the tech ones.
+
+Thoughts is just posts about what I am thinking at a particular point of time.
+
 <hr>

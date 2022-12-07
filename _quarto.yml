@@ -10,6 +10,8 @@ website:
   google-analytics: G-0HHNW4RVEE
   navbar:
     left:
+      - href: thoughts.qmd
+        text: Thoughts
       - href: notes.qmd
         text: Notes
       - href: til.qmd
