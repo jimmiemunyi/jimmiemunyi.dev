@@ -22,7 +22,7 @@ I am a software engineer from Kenya. My major interests revolve around AI and de
 
 I code mostly in Python, but can *very hackily* use JavaScript too when need be. I am also learning Rust and adding it to my arsenal.
 
-I currently work in the AI team at [Tambua Health](https://www.tambuahealth.com/).
+I currently work in the AI team at [T-Health](https://www.tambuahealth.com/).
 
 
 ## Contact Me
