@@ -4,8 +4,8 @@
     "items": [
       "/notes/awaken-meaning-crisis/ep3.html",
       "/notes/awaken-meaning-crisis/ep2.html",
-      "/notes/anthropologist-love-questions.html",
       "/notes/mathematicians-lament.html",
+      "/notes/anthropologist-love-questions.html",
       "/notes/coauthor.html",
       "/notes/new-deep-learning-project.html",
       "/notes/reliance-metrics-paper.html"
@@ -13,12 +13,8 @@
   },
   {
     "listing": "/til.html",
-    "items": []
-  },
-  {
-    "listing": "/thoughts.html",
     "items": [
-      "/thoughts/not-into-computers/not-into-computers.html"
+      "/til/tailscale.html"
     ]
   },
   {
@@ -32,6 +28,12 @@
       "/posts/sign-language/sign-language-classification.html",
       "/posts/pneumonia-classification/handling-imbalance-medical-datasets.html",
       "/posts/transfer-learning-beginner/transfer-learning.html"
+    ]
+  },
+  {
+    "listing": "/thoughts.html",
+    "items": [
+      "/thoughts/not-into-computers/not-into-computers.html"
     ]
   }
 ]

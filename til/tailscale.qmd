@@ -1,0 +1,27 @@
+---
+title: "How to remotely connect to my GPU workstation"
+description: Using Tailscale for SSH and much more.
+author: "Jimmie Munyi"
+date: 'Jan 10, 2023'
+toc: true
+highlight-style: pygments
+format: html
+---
+
+When I finished setting up my Deep Learning workstation, the next step was figuring out how I would be able to connect to it remotely, and train models when I was away from home.
+
+I tried setting up SSH following [some online tutorials](https://towardsdatascience.com/set-up-of-a-personal-gpu-server-for-machine-learning-with-ubuntu-20-04-100e787105ad) and in the end, it didn’t end up working. And worst of all, I spent a lot of time trying to figure out what went wrong and I still couldn’t debug it. Granted, networking isn’t one of my strongholds.
+
+My frustration led me to discover [Tailscale](https://tailscale.com/). On their homepage, they describe themselves as a VPN that lets you easily manage access to private resources, quickly SSH into devices on your network, and work securely from anywhere in the world.
+
+And my experience with Tailscale has been exactly that. It is easy to set up, and it is cross-platform (I have it set up on my Linux laptop, the Linux deep learning workstation, and even on my phone).
+
+The [docs](https://tailscale.com/kb/) explain how to get it set up and are easy to follow. When using Tailscale for SSH needs, make sure you have [Tailscale SSH](https://tailscale.com/kb/1193/tailscale-ssh/) setup too. Tailscale also provides [Magic DNS](https://tailscale.com/kb/1081/magicdns/) that enables us to use the machine name when sshing to the remote computer instead of remembering the IP address.
+
+After setting up Tailscale and Tailscale SSH, the next thing I did was to set up the [remote development on VSCode](https://code.visualstudio.com/docs/remote/ssh), which is my editor of choice, and voila, I now walk into a coffee shop away from home and train models!
+
+# Other uses for Tailscale.
+
+- Ad blocking and blocking malicious domains and trackers using [NextDNS](https://tailscale.com/kb/1218/nextdns/)
+
+- Sending files to and from my connected machines using [Taildrop](https://tailscale.com/kb/1106/taildrop/). You could also use SCP for this with the Tailscale SSH setup.

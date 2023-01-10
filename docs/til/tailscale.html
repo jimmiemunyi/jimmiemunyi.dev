@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jimmie Munyi">
-<meta name="dcterms.date" content="2022-08-31">
-<meta name="description" content="Tips from Matthias Niessner’s Thread on Twitter.">
+<meta name="dcterms.date" content="2023-01-10">
+<meta name="description" content="Using Tailscale for SSH and much more.">
 
-<title>Jimmie Munyi - How to start a Deep Learning Project</title>
+<title>Jimmie Munyi - How to remotely connect to my GPU workstation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,15 +74,13 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Jimmie Munyi - How to start a Deep Learning Project">
-<meta property="og:description" content="Tips from Matthias Niessner's Thread on Twitter.">
-<meta property="og:image" content="https://jimmiemunyi.dev/notes/notes.jpg">
+<meta property="og:title" content="Jimmie Munyi - How to remotely connect to my GPU workstation">
+<meta property="og:description" content="Using Tailscale for SSH and much more.">
 <meta property="og:site-name" content="Jimmie Munyi">
-<meta name="twitter:title" content="Jimmie Munyi - How to start a Deep Learning Project">
-<meta name="twitter:description" content="Tips from Matthias Niessner's Thread on Twitter.">
-<meta name="twitter:image" content="https://jimmiemunyi.dev/notes/notes.jpg">
+<meta name="twitter:title" content="Jimmie Munyi - How to remotely connect to my GPU workstation">
+<meta name="twitter:description" content="Using Tailscale for SSH and much more.">
 <meta name="twitter:creator" content="@jimmie_munyi">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed">
@@ -156,18 +154,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#start-simple" id="toc-start-simple" class="nav-link active" data-scroll-target="#start-simple">Start Simple</a></li>
-  <li><a href="#no-fancy-features" id="toc-no-fancy-features" class="nav-link" data-scroll-target="#no-fancy-features">No Fancy Features</a></li>
-  <li><a href="#set-up-trainval" id="toc-set-up-trainval" class="nav-link" data-scroll-target="#set-up-trainval">Set up train/val</a></li>
-  <li><a href="#overfit-to-a-single-train-sample-first" id="toc-overfit-to-a-single-train-sample-first" class="nav-link" data-scroll-target="#overfit-to-a-single-train-sample-first">Overfit to a single train sample first</a></li>
-  <li><a href="#overfit-to-5-10-samples" id="toc-overfit-to-5-10-samples" class="nav-link" data-scroll-target="#overfit-to-5-10-samples">Overfit to 5 – 10 samples</a></li>
-  <li><a href="#throw-more-data-at-the-problem" id="toc-throw-more-data-at-the-problem" class="nav-link" data-scroll-target="#throw-more-data-at-the-problem">Throw more data at the problem</a></li>
-  <li><a href="#training-speed" id="toc-training-speed" class="nav-link" data-scroll-target="#training-speed">Training Speed</a></li>
-  <li><a href="#improving-the-overall-performance" id="toc-improving-the-overall-performance" class="nav-link" data-scroll-target="#improving-the-overall-performance">Improving the overall performance</a></li>
-  <li><a href="#many-ablations-at-the-same-time" id="toc-many-ablations-at-the-same-time" class="nav-link" data-scroll-target="#many-ablations-at-the-same-time">Many ablations at the same time</a></li>
-  <li><a href="#data-engineering" id="toc-data-engineering" class="nav-link" data-scroll-target="#data-engineering">Data Engineering</a></li>
-  <li><a href="#bigger-architectures" id="toc-bigger-architectures" class="nav-link" data-scroll-target="#bigger-architectures">Bigger Architectures</a></li>
-  <li><a href="#final-advice" id="toc-final-advice" class="nav-link" data-scroll-target="#final-advice">Final Advice</a></li>
+  <li><a href="#other-uses-for-tailscale." id="toc-other-uses-for-tailscale." class="nav-link active" data-scroll-target="#other-uses-for-tailscale.">Other uses for Tailscale.</a></li>
   </ul>
 </nav>
     </div>
@@ -176,15 +163,12 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How to start a Deep Learning Project</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">notes</div>
-  </div>
-  </div>
+<h1 class="title">How to remotely connect to my GPU workstation</h1>
+</div>
 
 <div>
   <div class="description">
-    Tips from Matthias Niessner’s Thread on Twitter.
+    Using Tailscale for SSH and much more.
   </div>
 </div>
 
@@ -201,7 +185,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 31, 2022</p>
+      <p class="date">January 10, 2023</p>
     </div>
   </div>
   
@@ -211,55 +195,18 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 </header>
 
-<p>Link to the tweet - <a href="https://twitter.com/MattNiessner/status/1441027241870118913">Thread</a>.</p>
-<p>I wrote this down as a checklist that I use when I start my deep learning projects.</p>
-<section id="start-simple" class="level1">
-<h1>Start Simple</h1>
-<p>General advice: start simple → use a small architecture (less than 1 mio params). In vision, ENet or a crippled ResNet-18 (only the first blocks) is a good choice. Common mistake: train model with 100mio+ params for 3 weeks only to notice that the data loader is broken.</p>
-</section>
-<section id="no-fancy-features" class="level1">
-<h1>No Fancy Features</h1>
-<p>Disable dropout, batch norm, lr-decay.</p>
-</section>
-<section id="set-up-trainval" class="level1">
-<h1>Set up train/val</h1>
-<p>Set up your training and validation losses using Weights and Biases or Tensorboard. Make sure you log loss for every batch and not just epochs.</p>
-</section>
-<section id="overfit-to-a-single-train-sample-first" class="level1">
-<h1>Overfit to a single train sample first</h1>
-<p>This debugs your outputs, which you expect the network to fully memorize.</p>
-</section>
-<section id="overfit-to-5-10-samples" class="level1">
-<h1>Overfit to 5 – 10 samples</h1>
-<p>Now the network needs to predict different outputs depending on the input.</p>
-</section>
-<section id="throw-more-data-at-the-problem" class="level1">
-<h1>Throw more data at the problem</h1>
-<p>With the previous steps, you have verified that data loading and whether basic optimization works. Now it’s time to throw more data at the problem. The goal is to generalize for the first time – if your val loss goes down even just slightly, you have learned something.</p>
-</section>
-<section id="training-speed" class="level1">
-<h1>Training Speed</h1>
-<p>It is critical that your setup facilitates fast turnaround times for debugging. Make sure you understand where the bottleneck lies (data loading vs backprop)</p>
-</section>
-<section id="improving-the-overall-performance" class="level1">
-<h1>Improving the overall performance</h1>
-<p>Now that you have the basic setup running, it is finally time to improve the overall performance. Log the metrics on the val set on top of the loss logging you are already doing. Try out features that we had initially disabled like weight decay, dropout, batchnorm and other improvements that you could use.</p>
-</section>
-<section id="many-ablations-at-the-same-time" class="level1">
-<h1>Many ablations at the same time</h1>
-<p>After a few iterations, loss curves and metrics will tell you whether an experiment has promise or not. Kill experiments that do not show promise and start new ones with different hyperparameters.</p>
-</section>
-<section id="data-engineering" class="level1">
-<h1>Data Engineering</h1>
-<p>Most times, performance is limited due to the data. Try weight balancing between classes and augmentations. Never augment the val set as it would make it impossible to compare.</p>
-</section>
-<section id="bigger-architectures" class="level1">
-<h1>Bigger Architectures</h1>
-<p>Now it is time to try out bigger architectures. Generally, each time you change a model, you will repeat step 8 to 10 to see if you can get some improvements on the new architecture.</p>
-</section>
-<section id="final-advice" class="level1">
-<h1>Final Advice</h1>
-<p>All papers in AI/ML are written to sell a specific point → They are rarely proposing an easy-to-implement method. Often, it’s much better to use the simple baseline that many SOTA papers claim to beat.</p>
+<p>When I finished setting up my Deep Learning workstation, the next step was figuring out how I would be able to connect to it remotely, and train models when I was away from home.</p>
+<p>I tried setting up SSH following <a href="https://towardsdatascience.com/set-up-of-a-personal-gpu-server-for-machine-learning-with-ubuntu-20-04-100e787105ad">some online tutorials</a> and in the end, it didn’t end up working. And worst of all, I spent a lot of time trying to figure out what went wrong and I still couldn’t debug it. Granted, networking isn’t one of my strongholds.</p>
+<p>My frustration led me to discover <a href="https://tailscale.com/">Tailscale</a>. On their homepage, they describe themselves as a VPN that lets you easily manage access to private resources, quickly SSH into devices on your network, and work securely from anywhere in the world.</p>
+<p>And my experience with Tailscale has been exactly that. It is easy to set up, and it is cross-platform (I have it set up on my Linux laptop, the Linux deep learning workstation, and even on my phone).</p>
+<p>The <a href="https://tailscale.com/kb/">docs</a> explain how to get it set up and are easy to follow. When using Tailscale for SSH needs, make sure you have <a href="https://tailscale.com/kb/1193/tailscale-ssh/">Tailscale SSH</a> setup too. Tailscale also provides <a href="https://tailscale.com/kb/1081/magicdns/">Magic DNS</a> that enables us to use the machine name when sshing to the remote computer instead of remembering the IP address.</p>
+<p>After setting up Tailscale and Tailscale SSH, the next thing I did was to set up the <a href="https://code.visualstudio.com/docs/remote/ssh">remote development on VSCode</a>, which is my editor of choice, and voila, I now walk into a coffee shop away from home and train models!</p>
+<section id="other-uses-for-tailscale." class="level1">
+<h1>Other uses for Tailscale.</h1>
+<ul>
+<li><p>Ad blocking and blocking malicious domains and trackers using <a href="https://tailscale.com/kb/1218/nextdns/">NextDNS</a></p></li>
+<li><p>Sending files to and from my connected machines using <a href="https://tailscale.com/kb/1106/taildrop/">Taildrop</a>. You could also use SCP for this with the Tailscale SSH setup.</p></li>
+</ul>
 
 
 </section>
