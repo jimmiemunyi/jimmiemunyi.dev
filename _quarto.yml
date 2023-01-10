@@ -26,7 +26,7 @@ website:
       - icon: rss
         href: index.xml
   page-footer: 
-    left: "Copyright 2022, Jimmie Munyi" 
+    left: "Copyright 2023, Jimmie Munyi" 
     right: 
       - icon: github
         href: https://github.com/jimmiemunyi
