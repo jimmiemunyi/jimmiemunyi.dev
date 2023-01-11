@@ -7,6 +7,7 @@ listing:
   categories: false
   sort-ui: false
   filter-ui: false
+  fields: [title, date]
 
 page-layout: full
 title-block-banner: false

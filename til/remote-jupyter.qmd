@@ -15,9 +15,9 @@ After [remotely connecting to my GPU workstation](https://jimmiemunyi.dev/til/ta
 
 I use JupyterLab a lot. From prototyping ideas in an interactive way to writing software and libraries with the help of amazing projects like [nbdev](https://nbdev.fast.ai/).
 
-Simply running JupyterLab and opening the URL (the ordinary way to run it) on the local machine won’t work. We need to do something called ‘port forwarding from the remote machine to the local one.
+Simply running JupyterLab on the remote machine and opening the URL on the local machine won’t work. We need to do something called 'port forwarding' from the remote machine to the local one.
 
-[This tutorial](https://towardsdatascience.com/access-remote-code-in-a-breeze-with-jupyterlab-via-ssh-8c6a9ffaaa8c) explains how to do it and some theory. My only problem was typing lengthy commands in my terminal every time I wanted to do code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts. 
+[This tutorial](https://towardsdatascience.com/access-remote-code-in-a-breeze-with-jupyterlab-via-ssh-8c6a9ffaaa8c) explains how to do it and some theory behind port forwarding. My only problem was typing lengthy commands in my terminal every time I wanted to code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts. 
 
 And sure there was. Some more research led me to this [helpful gist](https://gist.github.com/wklchris/6e7fac67d8a22a348f3e6b6c75c0836e), which I tweaked a little bit to work with JupyterLab instead.
 
@@ -56,7 +56,7 @@ Add this line to your `~/.bash_aliases`:
 # note jupyterlabssh must be running on a remote ssh connection
 alias jupyterlisten='ssh -N -L localhost:port:localhost:port foo@bar'
 ```
-port should match the port you picked in the earlier step, and foo@bar represents the remote machine name.
+`port` should match the port you picked in the earlier step, and foo@bar represents the remote machine name.
 
 Reload the bashrc. `source .bashrc`
 
@@ -66,4 +66,4 @@ You can then click the JupyterLab URLs on the remote machine’s terminal and ha
 
 # Sidenote
 
-It is advised you run the above commands in something like tmux so that you can still continue using the terminal.
+It is advised you run the above commands in some terminal multiplexer like tmux so that you can still continue using the terminal. Otherwise you will have to keep open a number of terminals!

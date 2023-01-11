@@ -267,8 +267,8 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 <h1>Introduction</h1>
 <p>After <a href="https://jimmiemunyi.dev/til/tailscale.html">remotely connecting to my GPU workstation</a>, the next step was figuring out how to run <a href="https://jupyter.org/install">JupyterLab</a> remotely but access it on my local machine (laptop in this case).</p>
 <p>I use JupyterLab a lot. From prototyping ideas in an interactive way to writing software and libraries with the help of amazing projects like <a href="https://nbdev.fast.ai/">nbdev</a>.</p>
-<p>Simply running JupyterLab and opening the URL (the ordinary way to run it) on the local machine won’t work. We need to do something called ’port forwarding from the remote machine to the local one.</p>
-<p><a href="https://towardsdatascience.com/access-remote-code-in-a-breeze-with-jupyterlab-via-ssh-8c6a9ffaaa8c">This tutorial</a> explains how to do it and some theory. My only problem was typing lengthy commands in my terminal every time I wanted to do code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts.</p>
+<p>Simply running JupyterLab on the remote machine and opening the URL on the local machine won’t work. We need to do something called ‘port forwarding’ from the remote machine to the local one.</p>
+<p><a href="https://towardsdatascience.com/access-remote-code-in-a-breeze-with-jupyterlab-via-ssh-8c6a9ffaaa8c">This tutorial</a> explains how to do it and some theory behind port forwarding. My only problem was typing lengthy commands in my terminal every time I wanted to code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts.</p>
 <p>And sure there was. Some more research led me to this <a href="https://gist.github.com/wklchris/6e7fac67d8a22a348f3e6b6c75c0836e">helpful gist</a>, which I tweaked a little bit to work with JupyterLab instead.</p>
 <p>Credits to the blog and gist authors!</p>
 </section>
@@ -297,7 +297,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># running remote jupyter lab</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># note jupyterlabssh must be running on a remote ssh connection</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">alias</span> jupyterlisten=<span class="st">'ssh -N -L localhost:port:localhost:port foo@bar'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>port should match the port you picked in the earlier step, and foo@bar represents the remote machine name.</p>
+<p><code>port</code> should match the port you picked in the earlier step, and foo@bar represents the remote machine name.</p>
 <p>Reload the bashrc. <code>source .bashrc</code></p>
 <p>As long as the <code>jupyterlabssh</code> is running on the remote machine, you can now run this command and the ports will be forwarded.</p>
 <p>You can then click the JupyterLab URLs on the remote machine’s terminal and happy coding!</p>
@@ -305,7 +305,7 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 </section>
 <section id="sidenote" class="level1">
 <h1>Sidenote</h1>
-<p>It is advised you run the above commands in something like tmux so that you can still continue using the terminal.</p>
+<p>It is advised you run the above commands in some terminal multiplexer like tmux so that you can still continue using the terminal. Otherwise you will have to keep open a number of terminals!</p>
 
 
 </section>
