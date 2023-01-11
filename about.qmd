@@ -109,11 +109,11 @@ Some gold YouTube content.
 
 
 
-## Notes
+<!-- ## Notes
 
 I heavily take notes whenever I can, these can be from podcasts, youtube videos I watch, talks I attend, online MOOCs etc. For taking notes, I use Obsidian + a private GitHub repo backup across my machines. I previously used Notion which I would recommend too
 
-I share some of them here on my website, mostly so that I can have a central place where I can scheme through them from time to time. You can find the public ones here: <a href="notes.qmd">notes</a>
+I share some of them here on my website, mostly so that I can have a central place where I can scheme through them from time to time. You can find the public ones here: <a href="notes.qmd">notes</a> -->
 
 ## Today I Learned
 

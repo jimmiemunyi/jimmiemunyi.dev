@@ -14,11 +14,9 @@ website:
         text: About
       - href: thoughts.qmd
         text: Thoughts
-      - href: notes.qmd
-        text: Notes
       - href: til.qmd
         text: TIL
-
+        
     right:
       - icon: github
         href: https://github.com/jimmiemunyi
