@@ -1,5 +1,5 @@
 ---
-title: "Simplyfing Remote Jupyter Lab Execution"
+title: "Simplifying Remote Jupyter Lab Execution"
 description: Using bash scripts to make executing JupyterLab in a remote machine a breeze
 author: "Jimmie Munyi"
 date: 'Jan 11, 2023'
