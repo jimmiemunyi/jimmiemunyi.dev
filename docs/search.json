@@ -389,7 +389,7 @@
     "href": "til.html",
     "title": "Today I Learned",
     "section": "",
-    "text": "Short posts based on what I learned.\n\n\n\n\n\n\n\n\n\n\n\nHow to remotely connect to my GPU workstation\n\n\nUsing Tailscale for SSH and much more.\n\n\n\nJimmie Munyi\n\n\nJan 10, 2023\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Short posts based on what I learned.\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nJan 11, 2023\n\n\nSimplyfing Remote Jupyter Lab Execution\n\n\nJimmie Munyi\n\n\n\n\nJan 10, 2023\n\n\nHow to remotely connect to my GPU workstation\n\n\nJimmie Munyi\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
@@ -537,6 +537,27 @@
     "title": "Biological Anthropologist Answers Love Questions from Twitter",
     "section": "",
     "text": "Love can be instant. Think ‘Love at first sight’. Attachment in what takes time.\nOur human brains are not meant to deal with more than 5 to 9 options. Limit your options if you want to be serious about someone.\nDo not binge. Think ‘Tinder Culture’. This is harmful if you want to settle down or fall in love.\nWhen wanting to fall in love, focus on the positive illusions - reasons to say yes. We mostly fixate on the reasons to say no.\nLove and cheating are due to two different brain regions. (Not an excuse to cheat, maybe just an explanation?)\nSaying: Play with somebody, stay with somebody. Find ways to play with your partner, to grow the love between you."
+  },
+  {
+    "objectID": "til/remote-jupyter.html",
+    "href": "til/remote-jupyter.html",
+    "title": "Simplyfing Remote Jupyter Lab Execution",
+    "section": "",
+    "text": "After remotely connecting to my GPU workstation, the next step was figuring out how to run JupyterLab remotely but access it on my local machine (laptop in this case).\nI use JupyterLab a lot. From prototyping ideas in an interactive way to writing software and libraries with the help of amazing projects like nbdev.\nSimply running JupyterLab and opening the URL (the ordinary way to run it) on the local machine won’t work. We need to do something called ’port forwarding from the remote machine to the local one.\nThis tutorial explains how to do it and some theory. My only problem was typing lengthy commands in my terminal every time I wanted to do code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts.\nAnd sure there was. Some more research led me to this helpful gist, which I tweaked a little bit to work with JupyterLab instead.\nCredits to the blog and gist authors!"
+  },
+  {
+    "objectID": "til/remote-jupyter.html#on-the-remote-machine",
+    "href": "til/remote-jupyter.html#on-the-remote-machine",
+    "title": "Simplyfing Remote Jupyter Lab Execution",
+    "section": "On the remote machine",
+    "text": "On the remote machine\nAdd this line to your ~/.bash_aliases:\n# remote jupyter lab execution (ssh)\nalias jupyterlabssh='jupyter lab --no-browser --port=8887'\nYou can change the port to whatever port you wish to be forwarded. Just note it down.\nNow instead of the lengthy commands, you can just run jupyterlabssh to launch JupyterLab. Keep this terminal open all through the process until you are done coding. Remember to reload the bashrc too using source .bashrc before running.\n\n\n\njupyterlabssh running on remote machine"
+  },
+  {
+    "objectID": "til/remote-jupyter.html#on-the-local-machine",
+    "href": "til/remote-jupyter.html#on-the-local-machine",
+    "title": "Simplyfing Remote Jupyter Lab Execution",
+    "section": "On the local machine",
+    "text": "On the local machine\nAdd this line to your ~/.bash_aliases:\n# running remote jupyter lab\n# note jupyterlabssh must be running on a remote ssh connection\nalias jupyterlisten='ssh -N -L localhost:port:localhost:port foo@bar'\nport should match the port you picked in the earlier step, and foo@bar represents the remote machine name.\nReload the bashrc. source .bashrc\nAs long as the jupyterlabssh is running on the remote machine, you can now run this command and the ports will be forwarded.\nYou can then click the JupyterLab URLs on the remote machine’s terminal and happy coding!"
   },
   {
     "objectID": "til/tailscale.html",

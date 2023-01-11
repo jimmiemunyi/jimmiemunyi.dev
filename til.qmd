@@ -3,10 +3,11 @@ title: "Today I Learned"
 listing:
   contents: til
   sort: "date desc"
-  type: grid
+  type: table
   categories: false
   sort-ui: false
   filter-ui: false
+
 page-layout: full
 title-block-banner: false
 ---

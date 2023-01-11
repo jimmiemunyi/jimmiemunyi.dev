@@ -71,9 +71,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-date","listing-description"],
+      searchColumns: ["listing-date","listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -108,7 +108,6 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 <meta property="og:site-name" content="Jimmie Munyi">
 <meta name="twitter:title" content="Jimmie Munyi - Today I Learned">
 <meta name="twitter:description" content="Short posts based on what I learned.">
-<meta name="twitter:creator" content="@jimmie_munyi">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -129,6 +128,10 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
+    <a class="nav-link" href="./about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./thoughts.html">
  <span class="menu-text">Thoughts</span></a>
   </li>  
@@ -139,10 +142,6 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
   <li class="nav-item">
     <a class="nav-link active" href="./til.html" aria-current="page">
  <span class="menu-text">TIL</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html">
- <span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -204,31 +203,48 @@ gtag('config', 'G-0HHNW4RVEE', { 'anonymize_ip': true});
 
 
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1673298000000" data-listing-file-modified-sort="1673378779140" data-listing-reading-time-sort="1.41">
-<a href="./til/tailscale.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-How to remotely connect to my GPU workstation
-</h5>
-<div class="card-text listing-description">
-Using Tailscale for SSH and much more.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
+<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
+
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+<th>
+Date
+</th>
+<th>
+Title
+</th>
+<th>
+Author
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-listing-date-sort="1673384400000" data-listing-file-modified-sort="1673462193584" data-listing-reading-time-sort="1.92" data-listing-title-sort="Simplyfing Remote Jupyter Lab Execution" data-listing-filename-sort="remote-jupyter.qmd">
+<td class="listing-date">
+Jan 11, 2023
+</td>
+<td class="listing-title">
+<a href="./til/remote-jupyter.html" class="title">Simplyfing Remote Jupyter Lab Execution</a>
+</td>
+<td class="listing-author">
 Jimmie Munyi
-</div>
-<div class="listing-date">
+</td>
+</tr>
+<tr data-index="1" data-listing-date-sort="1673298000000" data-listing-file-modified-sort="1673378779140" data-listing-reading-time-sort="1.41" data-listing-title-sort="How to remotely connect to my GPU workstation" data-listing-filename-sort="tailscale.qmd">
+<td class="listing-date">
 Jan 10, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
+</td>
+<td class="listing-title">
+<a href="./til/tailscale.html" class="title">How to remotely connect to my GPU workstation</a>
+</td>
+<td class="listing-author">
+Jimmie Munyi
+</td>
+</tr>
+</tbody>
+
+</table>
 <div class="listing-no-matching d-none">
 No matching items
 </div>

@@ -1,0 +1,69 @@
+---
+title: "Simplyfing Remote Jupyter Lab Execution"
+description: Using bash scripts to make executing JupyterLab in a remote machine a breeze
+author: "Jimmie Munyi"
+date: 'Jan 11, 2023'
+toc: true
+highlight-style: pygments
+format: html
+---
+
+
+# Introduction
+
+After [remotely connecting to my GPU workstation](https://jimmiemunyi.dev/til/tailscale.html), the next step was figuring out how to run [JupyterLab](https://jupyter.org/install) remotely but access it on my local machine (laptop in this case).
+
+I use JupyterLab a lot. From prototyping ideas in an interactive way to writing software and libraries with the help of amazing projects like [nbdev](https://nbdev.fast.ai/).
+
+Simply running JupyterLab and opening the URL (the ordinary way to run it) on the local machine won’t work. We need to do something called ‘port forwarding from the remote machine to the local one.
+
+[This tutorial](https://towardsdatascience.com/access-remote-code-in-a-breeze-with-jupyterlab-via-ssh-8c6a9ffaaa8c) explains how to do it and some theory. My only problem was typing lengthy commands in my terminal every time I wanted to do code. As with many things in Linux, I was sure there was some way to automate this process, specifically with bash scripts. 
+
+And sure there was. Some more research led me to this [helpful gist](https://gist.github.com/wklchris/6e7fac67d8a22a348f3e6b6c75c0836e), which I tweaked a little bit to work with JupyterLab instead.
+
+Credits to the blog and gist authors!
+
+# Automating with Bash Scripts
+
+The following assumes you are using linux on both the remote and local machine. For other setups, you will have to tweak it to suit your platform.
+
+You should have ssh’ed into your remote machine too:
+
+`ssh foo@bar`
+
+## On the remote machine
+
+Add this line to your `~/.bash_aliases`:
+
+```bash
+# remote jupyter lab execution (ssh)
+alias jupyterlabssh='jupyter lab --no-browser --port=8887'
+```
+
+You can change the port to whatever port you wish to be forwarded. Just note it down.
+
+Now instead of the lengthy commands, you can just run `jupyterlabssh` to launch JupyterLab. Keep this terminal open all through the process until you are done coding. Remember to reload the bashrc too using `source .bashrc` before running.
+
+![jupyterlabssh running on remote machine](jupyterlabssh.png)
+
+
+## On the local machine
+
+Add this line to your `~/.bash_aliases`:
+
+```bash
+# running remote jupyter lab
+# note jupyterlabssh must be running on a remote ssh connection
+alias jupyterlisten='ssh -N -L localhost:port:localhost:port foo@bar'
+```
+port should match the port you picked in the earlier step, and foo@bar represents the remote machine name.
+
+Reload the bashrc. `source .bashrc`
+
+As long as the `jupyterlabssh` is running on the remote machine, you can now run this command and the ports will be forwarded.
+
+You can then click the JupyterLab URLs on the remote machine’s terminal and happy coding!
+
+# Sidenote
+
+It is advised you run the above commands in something like tmux so that you can still continue using the terminal.

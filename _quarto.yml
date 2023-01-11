@@ -5,19 +5,20 @@ project:
 website:
   title: "Jimmie Munyi"
   site-url: https://jimmiemunyi.dev/
-  description: "Thoughts"
+  description: "Tech Blog"
   favicon: favicon.png
   google-analytics: G-0HHNW4RVEE
   navbar:
     left:
+      - href: about.qmd
+        text: About
       - href: thoughts.qmd
         text: Thoughts
       - href: notes.qmd
         text: Notes
       - href: til.qmd
         text: TIL
-      - href: about.qmd
-        text: About
+
     right:
       - icon: github
         href: https://github.com/jimmiemunyi
@@ -33,8 +34,7 @@ website:
       - icon: twitter 
         href: https://twitter.com/jimmie_munyi
   open-graph: true
-  twitter-card:
-    creator: "@jimmie_munyi"
+  twitter-card: true
   reader-mode: true
 format:
   html:
