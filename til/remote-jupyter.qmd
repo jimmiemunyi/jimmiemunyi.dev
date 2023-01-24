@@ -9,6 +9,11 @@ format: html
 ---
 
 
+::: {.callout-note}
+Updated on: 24th Jan 2033.
+Using `autossh` instead for our `jupyterlisten`
+:::
+
 # Introduction
 
 After [remotely connecting to my GPU workstation](https://jimmiemunyi.dev/til/tailscale.html), the next step was figuring out how to run [JupyterLab](https://jupyter.org/install) remotely but access it on my local machine (laptop in this case).
@@ -40,7 +45,7 @@ Add this line to your `~/.bash_aliases`:
 alias jupyterlabssh='jupyter lab --no-browser --port=8887'
 ```
 
-You can change the port to whatever port you wish to be forwarded. Just note it down.
+You can change the `port` to whatever port you wish to be forwarded. Just note it down.
 
 Now instead of the lengthy commands, you can just run `jupyterlabssh` to launch JupyterLab. Keep this terminal open all through the process until you are done coding. Remember to reload the bashrc too using `source .bashrc` before running.
 
@@ -49,12 +54,20 @@ Now instead of the lengthy commands, you can just run `jupyterlabssh` to launch 
 
 ## On the local machine
 
+Install [autossh](https://www.harding.motd.ca/autossh/). autossh is a program to start a copy of ssh and monitor it, restarting it as necessary should it die or stop passing traffic.
+
+In linux, this is as simple as running:
+
+```bash
+apt install autossh
+```
+
 Add this line to your `~/.bash_aliases`:
 
 ```bash
 # running remote jupyter lab
 # note jupyterlabssh must be running on a remote ssh connection
-alias jupyterlisten='ssh -N -L localhost:port:localhost:port foo@bar'
+alias jupyterlisten='autossh -N -L localhost:port:localhost:port foo@bar'
 ```
 `port` should match the port you picked in the earlier step, and foo@bar represents the remote machine name.
 
