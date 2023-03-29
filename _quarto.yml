@@ -12,6 +12,8 @@ website:
     left:
       - href: about.qmd
         text: About
+      - href: projects.qmd
+        text: Projects
       - href: thoughts.qmd
         text: Thoughts
       - href: til.qmd

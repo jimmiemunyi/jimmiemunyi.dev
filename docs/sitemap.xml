@@ -2,94 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jimmiemunyi.dev/notes.html</loc>
-    <lastmod>2023-01-24T05:03:41.836Z</lastmod>
+    <lastmod>2023-03-29T19:34:27.951Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-classification.html</loc>
-    <lastmod>2023-01-24T05:03:42.360Z</lastmod>
+    <lastmod>2023-03-29T19:34:28.479Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/sign-language/sign-language-inference.html</loc>
-    <lastmod>2023-01-24T05:03:42.752Z</lastmod>
+    <lastmod>2023-03-29T19:34:28.867Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/resnet-paper/resnet-implementation.html</loc>
-    <lastmod>2023-01-24T05:03:55.128Z</lastmod>
+    <lastmod>2023-03-29T19:34:41.291Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/learning-from-sound/respiratory-sounds.html</loc>
-    <lastmod>2023-01-24T05:03:56.320Z</lastmod>
+    <lastmod>2023-03-29T19:34:42.535Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/book-recommendation/similar-books.html</loc>
-    <lastmod>2023-01-24T05:03:56.920Z</lastmod>
+    <lastmod>2023-03-29T19:34:43.147Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/pneumonia-classification/handling-imbalance-medical-datasets.html</loc>
-    <lastmod>2023-01-24T05:03:57.320Z</lastmod>
+    <lastmod>2023-03-29T19:34:43.579Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-beginner/transfer-learning.html</loc>
-    <lastmod>2023-01-24T05:03:57.760Z</lastmod>
+    <lastmod>2023-03-29T19:34:44.036Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/posts/transfer-learning-intermediate/making-transfer-learning-work.html</loc>
-    <lastmod>2023-01-24T05:05:55.398Z</lastmod>
+    <lastmod>2023-03-29T19:36:41.730Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/thoughts/not-into-computers/not-into-computers.html</loc>
-    <lastmod>2023-01-24T05:05:56.230Z</lastmod>
+    <lastmod>2023-03-29T19:36:42.666Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/til.html</loc>
-    <lastmod>2023-01-24T05:05:56.758Z</lastmod>
+    <lastmod>2023-03-29T19:36:43.206Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/index.html</loc>
-    <lastmod>2023-01-24T05:05:57.122Z</lastmod>
+    <lastmod>2023-03-29T19:36:43.566Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/about.html</loc>
-    <lastmod>2023-01-24T05:05:57.426Z</lastmod>
+    <lastmod>2023-03-29T19:36:43.866Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/reliance-metrics-paper.html</loc>
-    <lastmod>2023-01-24T05:05:57.974Z</lastmod>
+    <lastmod>2023-03-29T19:36:44.406Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/mathematicians-lament.html</loc>
-    <lastmod>2023-01-24T05:05:58.330Z</lastmod>
+    <lastmod>2023-03-29T19:36:44.750Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/new-deep-learning-project.html</loc>
-    <lastmod>2023-01-24T05:05:58.710Z</lastmod>
+    <lastmod>2023-03-29T19:36:45.126Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/coauthor.html</loc>
-    <lastmod>2023-01-24T05:05:58.958Z</lastmod>
+    <lastmod>2023-03-29T19:36:45.394Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/awaken-meaning-crisis/ep2.html</loc>
-    <lastmod>2023-01-24T05:05:59.238Z</lastmod>
+    <lastmod>2023-03-29T19:36:45.662Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/awaken-meaning-crisis/ep3.html</loc>
-    <lastmod>2023-01-24T05:05:59.506Z</lastmod>
+    <lastmod>2023-03-29T19:36:45.906Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/notes/anthropologist-love-questions.html</loc>
-    <lastmod>2023-01-24T05:05:59.750Z</lastmod>
+    <lastmod>2023-03-29T19:36:46.154Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/til/remote-jupyter.html</loc>
-    <lastmod>2023-01-24T05:06:00.046Z</lastmod>
+    <lastmod>2023-03-29T19:36:46.458Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/til/tailscale.html</loc>
-    <lastmod>2023-01-24T05:06:00.294Z</lastmod>
+    <lastmod>2023-03-29T19:36:46.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jimmiemunyi.dev/projects.html</loc>
+    <lastmod>2023-03-29T19:36:47.294Z</lastmod>
   </url>
   <url>
     <loc>https://jimmiemunyi.dev/thoughts.html</loc>
-    <lastmod>2023-01-24T05:06:00.834Z</lastmod>
+    <lastmod>2023-03-29T19:36:47.538Z</lastmod>
   </url>
 </urlset>

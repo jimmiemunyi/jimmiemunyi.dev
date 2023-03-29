@@ -1,0 +1,67 @@
+
+---
+title: Projects
+toc: true
+comments: false
+---
+
+These are some of my public projects that I worked on in my learning journey.
+
+
+## 2023
+
+### <a href="https://github.com/jimmiemunyi/snake-species-identification" target="_blank">Snake Species Identification</a> (Ongoing)
+
+
+**Objective**: To determine the species a snake belongs to.
+
+**Levers**: Use Image classification to identify the genus and species (binomial) and 
+then use other factors like country/continent where a snake is most likely to be found.
+
+**Data**: AI Crowd Species 2021 Identification Project. Can be found <a href="https://www.aicrowd.com/challenges/snakeclef2021-snake-species-identification-challenge" target="_blank">here</a>
+
+**Demo**: <a href="https://huggingface.co/spaces/Jimmie/snake-species-identification" target="_blank">Snake Species Identification</a>
+
+
+**Notes**: This was my first large project where I was working with a lot of data and had to predict a significant amount of categories
+(386,006 photographs of 772 snake species). I learned how to scale down the data to a manageable size in the protoyping phase so as to
+increase the speed of trying out new ideas and then gradually implement the ideas that worked on bigger and bigger scales of the data.
+I also had first hand experience with techniques like MixUp, Progressize Resizing, and Self-Supervised learning when working on this project.
+Read the full [blog post on my experience]() for more details.
+
+
+## 2021
+
+### <a href="https://github.com/jimmiemunyi/similar-books" target="_blank">Book Recommendation System</a>
+
+**Objective**: To recommend books to a user based on the books they have read.
+
+**Levers**: Use Collaborative Filtering to recommend books to a user based on the books they have read. Link the
+recommended books to Goodreads to get more information about the books.
+
+**Data**: Goodreads Books 10k Dataset. Can be found <a href="https://github.com/zygmuntz/goodbooks-10k" target="_blank">here</a>
+
+**Demo**: <a href="https://huggingface.co/spaces/Jimmie/similar-books" target="_blank">Similar Books</a>
+
+**Notes**: This was my first project where I used a dataset that was not in the form of images. I learned how to use
+collaborative filtering as a recommender engine. I also learned about what embeddings are and how they are used in the
+deep learning universe (spoiler alert: they are numbers! Meaningful numbers). 
+Read the full [blog post on my experience](https://jimmiemunyi.dev/posts/book-recommendation/similar-books.html) for more details.
+
+
+### <a href="https://github.com/jimmiemunyi/Sign-Language-App" target="_blank">American Sign Language Project</a>
+
+**Objective**: To build an app that can translate American Sign Language alphabet to English alphabet.
+
+**Levers**: Use opencv to process the video feed from the webcam and then use a CNN to classify the sign language alphabet.
+
+**Data**: American Sign Language Dataset. Can be found <a href="https://www.kaggle.com/grassknoted/asl-alphabet" target="_blank">here</a>
+
+**Demo**: <a href="https://www.youtube.com/watch?v=-nggi8EwfOA" target="_blank">Demo on YouTube</a>
+
+**Notes**: In this particular project, my main aim was the inference part of the model, i.e. how to make the model useful in the real world.
+That's why I went the webcam video way, because this way, the sign language alphabet can be translated in real time. Training the model was 
+routine image classifcation training. I also learned how to use opencv to process video feeds from the webcam. And how to process the video
+frame by frame. I had to come up with a unique way to make the predictions consistent, since they could change from frame to frame, leading
+to flickering predictions. Using the `queue` data structure was the solution to this problem.
+Read the full [blog post on my experience](https://jimmiemunyi.dev/posts/sign-language/sign-language-classification.html) for more details.

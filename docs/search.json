@@ -560,6 +560,27 @@
     "text": "When I finished setting up my Deep Learning workstation, the next step was figuring out how I would be able to connect to it remotely, and train models when I was away from home.\nI tried setting up SSH following some online tutorials and in the end, it didn’t end up working. And worst of all, I spent a lot of time trying to figure out what went wrong and I still couldn’t debug it. Granted, networking isn’t one of my strongholds.\nMy frustration led me to discover Tailscale. On their homepage, they describe themselves as a VPN that lets you easily manage access to private resources, quickly SSH into devices on your network, and work securely from anywhere in the world.\nAnd my experience with Tailscale has been exactly that. It is easy to set up, and it is cross-platform (I have it set up on my Linux laptop, the Linux deep learning workstation, and even on my phone).\nThe docs explain how to get it set up and are easy to follow. When using Tailscale for SSH needs, make sure you have Tailscale SSH setup too. Tailscale also provides Magic DNS that enables us to use the machine name when sshing to the remote computer instead of remembering the IP address.\nAfter setting up Tailscale and Tailscale SSH, the next thing I did was to set up the remote development on VSCode, which is my editor of choice, and voila, I now walk into a coffee shop away from home and train models!\n\nOther uses for Tailscale.\n\nAd blocking and blocking malicious domains and trackers using NextDNS\nSending files to and from my connected machines using Taildrop. You could also use SCP for this with the Tailscale SSH setup."
   },
   {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "These are some of my public projects that I worked on in my learning journey."
+  },
+  {
+    "objectID": "projects.html#section",
+    "href": "projects.html#section",
+    "title": "Projects",
+    "section": "2023",
+    "text": "2023\n\nSnake Species Identification (Ongoing)\nObjective: To determine the species a snake belongs to.\nLevers: Use Image classification to identify the genus and species (binomial) and then use other factors like country/continent where a snake is most likely to be found.\nData: AI Crowd Species 2021 Identification Project. Can be found here\nDemo: Snake Species Identification\nNotes: This was my first large project where I was working with a lot of data and had to predict a significant amount of categories (386,006 photographs of 772 snake species). I learned how to scale down the data to a manageable size in the protoyping phase so as to increase the speed of trying out new ideas and then gradually implement the ideas that worked on bigger and bigger scales of the data. I also had first hand experience with techniques like MixUp, Progressize Resizing, and Self-Supervised learning when working on this project. Read the full blog post on my experience for more details."
+  },
+  {
+    "objectID": "projects.html#section-1",
+    "href": "projects.html#section-1",
+    "title": "Projects",
+    "section": "2021",
+    "text": "2021\n\nBook Recommendation System\nObjective: To recommend books to a user based on the books they have read.\nLevers: Use Collaborative Filtering to recommend books to a user based on the books they have read. Link the recommended books to Goodreads to get more information about the books.\nData: Goodreads Books 10k Dataset. Can be found here\nDemo: Similar Books\nNotes: This was my first project where I used a dataset that was not in the form of images. I learned how to use collaborative filtering as a recommender engine. I also learned about what embeddings are and how they are used in the deep learning universe (spoiler alert: they are numbers! Meaningful numbers). Read the full blog post on my experience for more details.\n\n\nAmerican Sign Language Project\nObjective: To build an app that can translate American Sign Language alphabet to English alphabet.\nLevers: Use opencv to process the video feed from the webcam and then use a CNN to classify the sign language alphabet.\nData: American Sign Language Dataset. Can be found here\nDemo: Demo on YouTube\nNotes: In this particular project, my main aim was the inference part of the model, i.e. how to make the model useful in the real world. That’s why I went the webcam video way, because this way, the sign language alphabet can be translated in real time. Training the model was routine image classifcation training. I also learned how to use opencv to process video feeds from the webcam. And how to process the video frame by frame. I had to come up with a unique way to make the predictions consistent, since they could change from frame to frame, leading to flickering predictions. Using the queue data structure was the solution to this problem. Read the full blog post on my experience for more details."
+  },
+  {
     "objectID": "thoughts.html",
     "href": "thoughts.html",
     "title": "Thoughts",
