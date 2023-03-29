@@ -51,7 +51,7 @@ Read the full [blog post on my experience](https://jimmiemunyi.dev/posts/book-re
 
 ### <a href="https://github.com/jimmiemunyi/Sign-Language-App" target="_blank">American Sign Language Project</a>
 
-**Objective**: To build an app that can translate American Sign Language alphabet to English alphabet.
+**Objective**: To build an app that can translate American Sign Language alphabet to English alphabet in realtime.
 
 **Levers**: Use opencv to process the video feed from the webcam and then use a CNN to classify the sign language alphabet.
 
