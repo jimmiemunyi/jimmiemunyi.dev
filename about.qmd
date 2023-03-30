@@ -1,6 +1,6 @@
 ---
 title: "About Me"
-image: jimmie-new.jpg
+image: jimmie-new.JPG
 about:
   template: solana
   image-width: 10em
