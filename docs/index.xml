@@ -9,7 +9,7 @@
 <link>https://jimmiemunyi.dev/index.html</link>
 <atom:link href="https://jimmiemunyi.dev/index.xml" rel="self" type="application/rss+xml"/>
 <description>Tech Blog</description>
-<generator>quarto-1.2.313</generator>
+<generator>quarto-1.2.475</generator>
 <lastBuildDate>Sat, 16 Oct 2021 21:00:00 GMT</lastBuildDate>
 <item>
   <title>Making Transfer Learning work in plain PyTorch</title>

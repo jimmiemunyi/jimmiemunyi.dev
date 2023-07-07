@@ -10,6 +10,23 @@ These are some of my public projects that I worked on in my learning journey.
 
 ## 2023
 
+### <a href="https://github.com/jimmiemunyi/patent-phrase-to-phrase" target="_blank">Kaggle: Patent Phrase to Phrase Matching</a>
+
+
+**Objective**: To determine the semantic similarity between phrases in patents.
+
+
+**Notes**: Practicing and learning NLP techniques used in Kaggle competitions. This one was a little bit tougher than usual, but fun nonetheless. 
+I had to research and learn a lot on my own since most solutions posted on the Kaggle discussion contain mininal explanation and you have to do
+the digging in yourself to understand the solution and why it works. Notable things I learned was being creative with the Dataset (combining information)
+from outside sources and [Adversarial Weight Perturbation](https://arxiv.org/abs/2004.05884) which a lot of winning solutions on different NLP competitions
+seem to be using. AWP does seem to improve the results but at the expense of overhead computation. Maybe in future I can try come up with creative ways
+to implement it without incurring the overhead cost, so that I can use it more widely. [Research has already started on how to do so](https://www.kaggle.com/code/junkoda/fast-awp).
+
+I also picked up a new PyTorch training library that I am starting to like. Mosaic ML's [Composer](https://docs.mosaicml.com/projects/composer/en/stable/).
+Looks like I will be sticking with it, at least for now.
+
+
 ### <a href="https://github.com/jimmiemunyi/snake-species-identification" target="_blank">Snake Species Identification</a> (Ongoing)
 
 
